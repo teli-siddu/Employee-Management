@@ -21,7 +21,12 @@ namespace Repository
         public async Task<IEnumerable<Owner>> GetAllOwnersAsync()
         {
           return await FindAll()
+                       .Include(x=>x.Accounts)
                        .OrderBy(x => x.OwnerId)
+                       .Select(x=>new Owner
+                       {
+                           Name=x.Name
+                       })
                        .ToListAsync();
         }
 

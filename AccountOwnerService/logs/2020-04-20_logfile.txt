@@ -1,0 +1,9 @@
+2020-04-20 12:28:56.4065 INFO Now listening on: https://localhost:5001
+2020-04-20 12:28:56.5990 INFO Now listening on: http://localhost:5000
+2020-04-20 12:28:56.6741 INFO Application started. Press Ctrl+C to shut down.
+2020-04-20 12:28:56.7019 INFO Hosting environment: Development
+2020-04-20 12:28:56.7294 INFO Content root path: C:\Users\Siddu\source\repos\AccountOwnerService\APIProject
+2020-04-20 12:29:23.6212 INFO here is info message from the controller.
+2020-04-20 12:29:23.7398 WARN here is warning message from the controller.
+2020-04-20 12:29:23.7616 ERROR here is error message from the controller.
+2020-04-20 12:29:23.7833 FATAL here is critical message from the controller.

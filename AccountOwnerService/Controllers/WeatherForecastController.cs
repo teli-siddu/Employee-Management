@@ -28,8 +28,8 @@ namespace AccountOwnerService.Controllers
             //_logger.LogDebug("Here is debug message from the controller.");
             //_logger.LogWarn("Here is warn message from the controller.");
             //_logger.LogError("Here is error message from the controller.");
-            var domesticAccounts = _repositoryWrapper.Account.FindByCondition(x => x.AccountType.Equals("Domestic"));
-            var owners = _repositoryWrapper.Owner.FindAll();
+            //var domesticAccounts = _repositoryWrapper.Account.FindByCondition(x => x.AccountType.Equals("Domestic"));
+            //var owners = _repositoryWrapper.Owner.FindAll();
 
 
             return new string[] { "value1", "value2" };

@@ -5,6 +5,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200421024704_add_emp_dept_table.cs" />
+    <Compile Remove="Migrations\20200421024704_add_emp_dept_table.Designer.cs" />
+    <Compile Remove="Migrations\20200421034113_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421034113_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421034847_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421034847_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421035342_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421035342_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421040125_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421040125_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421040822_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421040822_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421041053_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421041053_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421042310_add_emp_dept_tables1.cs" />
+    <Compile Remove="Migrations\20200421042310_add_emp_dept_tables1.Designer.cs" />
+    <Compile Remove="Migrations\20200421042537_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421042537_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421143301_extend_IdentityUser_add_applicationUser.cs" />
+    <Compile Remove="Migrations\20200421143301_extend_IdentityUser_add_applicationUser.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
