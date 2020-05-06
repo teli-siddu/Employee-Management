@@ -21,6 +21,10 @@ namespace Contracts
         List<ApplicationUser> GetUsers();
         Task<bool> CheckUserIsMemberofRole(ApplicationUser user, string roleName);
 
+        Task<IdentityResult> AddRole(ApplicationUser user, string role);
+        Task<IdentityResult> RemoveRole(ApplicationUser user, string role);
+        Task<ApplicationUser> GetUserByUserName(string username);
+       
 
     }
 }

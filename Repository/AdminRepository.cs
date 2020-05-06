@@ -60,6 +60,20 @@ namespace Repository
             return  _userManager.Users.ToList();
         }
 
+        public async Task<IdentityResult> AddRole(ApplicationUser user,string role) 
+        {
+            return await _userManager.AddToRoleAsync(user, role);
+        }
+        public async Task<IdentityResult> RemoveRole(ApplicationUser user, string role)
+        {
+            return await _userManager.RemoveFromRoleAsync(user, role);
+        }
+
+        public async Task<ApplicationUser> GetUserByUserName(string username) 
+        {
+            return await _userManager.FindByNameAsync(username);
+        }
+        
         public async Task<IdentityResult> EditRole(IdentityRole role) 
         {
            return  await  _roleManager.UpdateAsync(role);
@@ -68,8 +82,15 @@ namespace Repository
 
         public async Task EditUserInRole(IdentityRole role) 
         {
-
+            
         }
+
+
+
+        //public async Task<string> GetToken(string userName,string password) 
+        //{
+        //   ApplicationUser usr  await  GetUserByUserName(userName);
+        //}
 
     }
 }

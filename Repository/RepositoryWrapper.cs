@@ -44,7 +44,7 @@ namespace Repository
         }
 
 
-        public IAccountRepository Account => _account == null ? new AccountRepository(_repositoryContext) : _account;
+        //public IAccountRepository Account => _account == null ? new AccountRepository(_repositoryContext) : _account;
 
       
 
@@ -53,6 +53,8 @@ namespace Repository
         public AppSettings AppSettings => throw new NotImplementedException();
 
         public IUserRepository User => throw new NotImplementedException();
+
+        public IAccountRepository Account => throw new NotImplementedException();
 
 
 

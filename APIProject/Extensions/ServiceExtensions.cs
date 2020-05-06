@@ -5,10 +5,12 @@ using Entities.Models;
 using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
 using System;
@@ -57,6 +59,7 @@ namespace APIProject.Extensions
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             
         }
 
@@ -80,10 +83,35 @@ namespace APIProject.Extensions
                 options.SaveToken = true;
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
+                    //ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
+                    
+                  
+
+                };
+            });
+        }
+
+        public static void ConfigureAuthentication(this IServiceCollection services,IConfiguration configuration) 
+        {
+            
+        }
+
+        public static void ConfigureApplicationCookie(this IServiceCollection services)
+        {
+            services.ConfigureApplicationCookie(Options =>
+            {
+                Options.Events.OnRedirectToAccessDenied = context=>
+                {
+                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    return Task.CompletedTask;
+                };
+                Options.Events.OnRedirectToLogin = context=>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
                 };
             });
         }
@@ -92,13 +120,23 @@ namespace APIProject.Extensions
         {
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.Password.RequiredLength = 5;
-                options.Password.RequireLowercase = true;
+                options.Password.RequiredLength = 2;
+                options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                //options.SignIn.RequireConfirmedAccount = true;
 
-            }).AddEntityFrameworkStores<RepositoryContext >();
+
+            }).AddEntityFrameworkStores<RepositoryContext>();
+          
+
            
                     
+        }
+
+        public static void ConfigureAuthorization(this IServiceCollection services) 
+        {
+
         }
     }
 }

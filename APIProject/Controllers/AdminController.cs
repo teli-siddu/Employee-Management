@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Contracts;
 using Entities.Models;
 using Entities.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +15,10 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace APIProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
+ 
     public class AdminController : ControllerBase
     {
 
@@ -26,7 +29,7 @@ namespace APIProject.Controllers
 
             this._adminRepository = adminRepository;
         }
-
+ 
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel RoleModel)
         {
@@ -62,6 +65,7 @@ namespace APIProject.Controllers
 
         }
 
+        [HttpGet("GetRoles")]
         public IActionResult GetRoles()
         {
             try
@@ -135,6 +139,7 @@ namespace APIProject.Controllers
             }
         }
 
+        [HttpGet("EditUsersInRole/{RoleId}")]
         public async Task<IActionResult> EditUsersInRole(string roleId) 
         {
             try
@@ -175,7 +180,66 @@ namespace APIProject.Controllers
 
         }
 
-       
+        [HttpPost("UpdateUsersInRole/{roleId}")]
+        public async Task<IActionResult> EditUsersInRole(List<RoleUsersViewModel> users, string roleId) 
+        {
+            try
+            {
+                var role = await _adminRepository.GetRoleById(roleId);
+                List<IdentityResult> results = new List<IdentityResult>();
+                foreach (var user in users)
+                {
+                    IdentityResult identityResult = null;
+                    try
+                    {
+                        ApplicationUser applicationUser = await _adminRepository.GetUserByUserName(user.UserName);
+
+
+
+                        if (user.IsSelected && !(await _adminRepository.CheckUserIsMemberofRole(applicationUser, role.Name)))
+                        {
+                            identityResult = await _adminRepository.AddRole(applicationUser, role.Name);
+                        }
+                        else if (!(user.IsSelected && !(await _adminRepository.CheckUserIsMemberofRole(applicationUser, role.Name))))
+                        {
+                            identityResult = await _adminRepository.RemoveRole(applicationUser, role.Name);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    catch (Exception x)
+                    {
+                        results.Add(identityResult);
+                    }
+
+                    results.Add(identityResult);
+                }
+
+                return Ok(results);
+
+            }
+            catch (Exception x) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+          
+
+        }
+
+        [HttpGet("Users")]
+        public  List<ApplicationUser> Users() 
+        {
+            return _adminRepository.GetUsers();
+        }
+
+        
+
+
+      
+
+
 
 
 

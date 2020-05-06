@@ -33,19 +33,21 @@ namespace APIProject
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryWrapper();
             services.ConfigureAppSettings(Configuration);
-            services.ConfigureJWTAuthentication(Configuration);
             services.ConfigureIdentity();
+            services.ConfigureJWTAuthentication(Configuration);
             
-            services.AddControllers(options=> 
-            {
-                var ploicy = new AuthorizationPolicyBuilder()
-                                .RequireAuthenticatedUser()
-                                .Build();
-            } ).AddNewtonsoftJson(options =>
-     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
- );
+            services.ConfigureApplicationCookie();
+ //           services.AddControllers(options=> 
+ //           {
+ //               var ploicy = new AuthorizationPolicyBuilder()
+ //                               .RequireAuthenticatedUser()
+ //                               .Build();
+ //           } ).AddNewtonsoftJson(options =>
+ //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+ //);
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
            
         }
 
@@ -56,12 +58,14 @@ namespace APIProject
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

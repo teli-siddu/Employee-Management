@@ -29,7 +29,7 @@ namespace APIProject.Controllers
             _repositoryWrapper = repositoryWrapper;
 
         }
-        
+
 
         [Authorize]
         [HttpGet]
@@ -42,7 +42,7 @@ namespace APIProject.Controllers
             _logger.LogWarning("here is warning message from the controller.");
             _logger.LogError("here is error message from the controller.");
             _logger.LogCritical("here is critical message from the controller.");
-            IEnumerable<User> owners= await  _repositoryWrapper.User.GetAllUsersAsync();
+            //IEnumerable<User> owners= await  _repositoryWrapper.User.GetAllUsersAsync();
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
