@@ -24,7 +24,11 @@ namespace Contracts
         Task<IdentityResult> AddRole(ApplicationUser user, string role);
         Task<IdentityResult> RemoveRole(ApplicationUser user, string role);
         Task<ApplicationUser> GetUserByUserName(string username);
-       
+        Task<IdentityResult> DeleteUserById(string userid);
+        Task<ApplicationUser> GetUserById(string userId);
+        Task<IdentityResult> DeleteRoleById(string roleId);
+
+
 
     }
 }

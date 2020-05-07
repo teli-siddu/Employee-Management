@@ -123,15 +123,16 @@ namespace APIProject.Controllers
                role.Name = roleVieModel.RoleName;
 
                IdentityResult result=   await _adminRepository.EditRole(role);
-                if (result.Succeeded) 
-                {
-                    return Ok(result);
+                //if (result.Succeeded) 
+                //{
+                //    return Ok(result);
 
-                }
-                else 
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError,ModelState);
-                }
+                //}
+                //else 
+                //{
+                //    return Ok("Not able to edit role");
+                //}
+                return Ok(result);
             }
             catch (Exception x)
             {
@@ -234,10 +235,57 @@ namespace APIProject.Controllers
             return _adminRepository.GetUsers();
         }
 
-        
+        [HttpPost("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            try
+            {
+                ApplicationUser applicationUser = await _adminRepository.GetUserById(id);
+
+                if (applicationUser is null)
+
+                {
+
+                    return NotFound($"No user found with id {id}");
+                   
+                   // return StatusCode(StatusCodes.Status200OK,"No user found with id {id}");
+                }
+
+                IdentityResult result = await _adminRepository.DeleteUserById(id);
+                return Ok(result);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
 
-      
+        }
+
+        [HttpPost("DeleteRole")]
+        public async Task<IActionResult> DeleteRole(string id) 
+        {
+            try 
+            {
+                IdentityRole role = await _adminRepository.GetRoleById(id);
+                if (role is null)
+                {
+                    return NotFound($"No user found with id {id}");
+                }
+                IdentityResult result = await _adminRepository.DeleteRoleById(id);
+                return Ok(result);
+            }
+            catch (Exception x) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+           
+        }
+
+
+
+
+
 
 
 

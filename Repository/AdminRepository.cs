@@ -80,11 +80,28 @@ namespace Repository
 
         }
 
-        public async Task EditUserInRole(IdentityRole role) 
+        public async Task<IdentityResult> DeleteUserById(string userid) 
         {
-            
+            ApplicationUser user = await _userManager.FindByIdAsync(userid);
+            var result=  await _userManager.DeleteAsync(user);
+            return result;
         }
 
+        public async Task<ApplicationUser> GetUserById(string userId) 
+        {
+            return await _userManager.FindByIdAsync(userId);
+        }
+
+        public async Task<IdentityResult> DeleteRoleById(string roleId) 
+        {
+            IdentityRole role= await _roleManager.FindByIdAsync(roleId);
+            return await _roleManager.DeleteAsync(role);
+        }
+
+
+
+     
+           
 
 
         //public async Task<string> GetToken(string userName,string password) 
