@@ -1,0 +1,62 @@
+﻿@model Entities.ViewModels.UsersViewModel
+
+<style>
+    .employee-card {
+        margin: 0px 5px;
+        /* border: 1px solid #3333; */
+        padding: 0px 5px;
+        box-shadow: 0px 0px 2px 0px;
+</style>
+
+    <div class="employee-list-container p-3">
+
+        <div class="row">
+            @if (Model == null || Model.Users.Count() == 0)
+            {
+                <h3>There is nothing to display...</h3>
+                return;
+            }
+            @foreach (var employee in Model?.Users)
+            {
+
+                <div class="employee-card col-md-4">
+
+                    <div class="employee-card-header">
+
+                    </div>
+                    <div class="employee-card-body row form-group">
+
+                        <div class="col-md-4">
+                            <label>User Name:</label>
+                        </div>
+                        <div class="col-md-8">
+                            @employee.UserName
+                        </div>
+
+
+                        <div class="col-md-4">
+                            Roles:
+                        </div>
+                        <div class="col-md-8">
+                            @foreach (var role in employee.Roles)
+                            {
+                                <div class="row">
+                                    @role.RoleName
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                    <div class="employee-card-footer">
+
+
+                    </div>
+
+                </div>
+
+            }
+        </div>
+       
+
+    </div>
+

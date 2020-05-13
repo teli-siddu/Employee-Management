@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200417084548_m1.cs" />
+    <Compile Remove="Migrations\20200417084548_m1.Designer.cs" />
+    <Compile Remove="Migrations\20200419073455_m2.cs" />
+    <Compile Remove="Migrations\20200419073455_m2.Designer.cs" />
     <Compile Remove="Migrations\20200421024704_add_emp_dept_table.cs" />
     <Compile Remove="Migrations\20200421024704_add_emp_dept_table.Designer.cs" />
     <Compile Remove="Migrations\20200421034113_add_emp_dept_tables.cs" />
@@ -23,8 +27,36 @@
     <Compile Remove="Migrations\20200421042310_add_emp_dept_tables1.Designer.cs" />
     <Compile Remove="Migrations\20200421042537_add_emp_dept_tables.cs" />
     <Compile Remove="Migrations\20200421042537_add_emp_dept_tables.Designer.cs" />
+    <Compile Remove="Migrations\20200421042912_add_emp_dept_tables.cs" />
+    <Compile Remove="Migrations\20200421042912_add_emp_dept_tables.Designer.cs" />
     <Compile Remove="Migrations\20200421143301_extend_IdentityUser_add_applicationUser.cs" />
     <Compile Remove="Migrations\20200421143301_extend_IdentityUser_add_applicationUser.Designer.cs" />
+    <Compile Remove="Migrations\20200421143412_extend_IdentityUser_add_applicationUser.cs" />
+    <Compile Remove="Migrations\20200421143412_extend_IdentityUser_add_applicationUser.Designer.cs" />
+    <Compile Remove="Migrations\20200509051710_new_columns_ApplicationUser.cs" />
+    <Compile Remove="Migrations\20200509051710_new_columns_ApplicationUser.Designer.cs" />
+    <Compile Remove="Migrations\20200509052858_new_columns_ApplicationUser.cs" />
+    <Compile Remove="Migrations\20200509052858_new_columns_ApplicationUser.Designer.cs" />
+    <Compile Remove="Migrations\20200511082628_add-refreshtoken-column-regreshtoken.cs" />
+    <Compile Remove="Migrations\20200511082628_add-refreshtoken-column-regreshtoken.Designer.cs" />
+    <Compile Remove="Migrations\20200511083448_add-refreshtoken-column-regreshtoken1.cs" />
+    <Compile Remove="Migrations\20200511083448_add-refreshtoken-column-regreshtoken1.Designer.cs" />
+    <Compile Remove="Migrations\20200511104605_dynamic-menu.cs" />
+    <Compile Remove="Migrations\20200511104605_dynamic-menu.Designer.cs" />
+    <Compile Remove="Migrations\20200512105917_m1sdsa.cs" />
+    <Compile Remove="Migrations\20200512105917_m1sdsa.Designer.cs" />
+    <Compile Remove="Migrations\20200512110334_m1sdsa.cs" />
+    <Compile Remove="Migrations\20200512110334_m1sdsa.Designer.cs" />
+    <Compile Remove="Models\AspNetRoleClaims.cs" />
+    <Compile Remove="Models\AspNetRoles.cs" />
+    <Compile Remove="Models\AspNetUserClaims.cs" />
+    <Compile Remove="Models\AspNetUserLogins.cs" />
+    <Compile Remove="Models\AspNetUserRoles.cs" />
+    <Compile Remove="Models\AspNetUsers.cs" />
+    <Compile Remove="Models\AspNetUserTokens.cs" />
+    <Compile Remove="Models\EmployeeManagementContext.cs" />
+    <Compile Remove="Models\Menu.cs" />
+    <Compile Remove="Models\RoleMenu.cs" />
   </ItemGroup>
 
   <ItemGroup>

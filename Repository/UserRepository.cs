@@ -85,13 +85,21 @@ namespace Repository
 
         public async Task<IdentityResult> Register(ApplicationUser user,string password)
         {
-            var result= await _userManager.CreateAsync(user, password);
-            if (result.Succeeded) 
+            try
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                
+                var result = await _userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+
+                }
+                return result;
             }
-            return result;
+            catch (Exception x) 
+            {
+                return new IdentityResult();
+            }
+           
 
         }
 

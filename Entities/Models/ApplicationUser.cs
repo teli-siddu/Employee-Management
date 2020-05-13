@@ -6,11 +6,28 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class ApplicationUser:IdentityUser
+    public class ApplicationUser:IdentityUser<string>
     {
         public string City { get; set; }
 
-        
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [NotMapped]
+        public string FullName
+        {
+            get 
+            {
+                return $"{FirstName} {LastName}"; 
+            }
+        }
+        public string RefreshToken { get; set; }
+        public  ICollection<ApplicationUserClaim> Claims { get; set; }
+        public  ICollection<ApplicationUserLogin> Logins { get; set; }
+        public  ICollection<ApplicationUserToken> Tokens { get; set; }
+        public  ICollection<ApplicationUserRole> UserRoles { get; set; }
+        //public virtual ICollection<ApplicationRole> Roles { get; set; }
+
+
 
     }
 }

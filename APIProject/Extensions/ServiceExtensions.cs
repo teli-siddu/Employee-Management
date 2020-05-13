@@ -60,6 +60,7 @@ namespace APIProject.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
             
         }
 
@@ -118,7 +119,7 @@ namespace APIProject.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services) 
         {
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 2;
                 options.Password.RequireLowercase = false;

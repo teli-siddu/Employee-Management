@@ -10,7 +10,11 @@ namespace Entities.ViewModels
         [Required]
         public string Email { get; set; }
 
+        public string FirstName { get; set; }
 
+        public string LastName { get; set; }
+
+        public string City { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

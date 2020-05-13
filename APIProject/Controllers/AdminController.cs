@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts;
+using Entities.Helper;
 using Entities.Models;
 using Entities.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +16,7 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace APIProject.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     [Route("api/[controller]")]
     [ApiController]
  
@@ -39,11 +40,11 @@ namespace APIProject.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                IdentityRole identityRole = new IdentityRole()
+                ApplicationRole applicationRole = new ApplicationRole()
                 {
                     Name = RoleModel.RoleName
                 };
-                IdentityResult identityResult = await _adminRepository.CreateRole(identityRole);
+                IdentityResult identityResult = await _adminRepository.CreateRole(applicationRole);
                 if (identityResult.Succeeded)
                 {
                     return Ok(identityResult);
@@ -70,7 +71,7 @@ namespace APIProject.Controllers
         {
             try
             {
-                IEnumerable<IdentityRole> roles = _adminRepository.GetRoles();
+                IEnumerable<RoleViewModel> roles = _adminRepository.GetRoles();
                 return Ok(roles);
             }
             catch (Exception x)
@@ -81,19 +82,20 @@ namespace APIProject.Controllers
 
         }
 
-        [HttpGet("EditRole")]
-        public async Task<IActionResult> EditRole(string id)
+        [HttpGet("EditRole/{Id}")]
+        public async Task<IActionResult> EditRole(string Id)
         {
             try
             {
-                IdentityRole role = await _adminRepository.FindRoleById(id);
+                IdentityRole role = await _adminRepository.FindRoleById(Id);
                 IEnumerable<string> users = await _adminRepository.GetUsersByRoleName(role.Name);
 
-                EditRoleVieModel roleVieModel = new EditRoleVieModel
+                CreateRoleViewModel roleVieModel = new CreateRoleViewModel
                 {
-                    Id = role.Id,
-                    RoleName = role.Name,
-                    Users = users
+                    
+                 RoleName=role.Name,
+                 RoleId=role.Id
+                   
                 };
 
                 return Ok(roleVieModel);
@@ -105,16 +107,16 @@ namespace APIProject.Controllers
         }
 
         [HttpPost("EditRole")]
-        public async Task<IActionResult> EditRole(EditRoleVieModel roleVieModel)
+        public async Task<IActionResult> EditRole(CreateRoleViewModel roleVieModel)
         {
-            if (ModelState.IsValid) 
+            if (!ModelState.IsValid) 
             {
                 return BadRequest(ModelState);
             }
 
             try
             {
-                IdentityRole role = await _adminRepository.FindRoleById(roleVieModel.Id);
+                ApplicationRole role = await _adminRepository.FindRoleById(roleVieModel.RoleId);
                 if (role == null) 
                 {
                     return Ok("Role not exist...");
@@ -170,7 +172,14 @@ namespace APIProject.Controllers
                     );
                 }
 
-                return Ok(users);
+                EditRoleVieModel editRoleView = new EditRoleVieModel()
+                {
+                    Id = role.Id,
+                    RoleName = role.Name,
+                    Users = users
+                };
+
+                return Ok(editRoleView);
 
             }
             catch (Exception x) 
@@ -181,14 +190,15 @@ namespace APIProject.Controllers
 
         }
 
-        [HttpPost("UpdateUsersInRole/{roleId}")]
-        public async Task<IActionResult> EditUsersInRole(List<RoleUsersViewModel> users, string roleId) 
+        [HttpPost("UpdateUsersInRole")]
+        public async Task<IActionResult> EditUsersInRole(EditRoleVieModel RoleVieModel) 
         {
             try
             {
-                var role = await _adminRepository.GetRoleById(roleId);
-                List<IdentityResult> results = new List<IdentityResult>();
-                foreach (var user in users)
+                var role = await _adminRepository.GetRoleById(RoleVieModel.Id);
+                
+                List<ApiResponse> results = new List<ApiResponse>();
+                foreach (var user in RoleVieModel.Users)
                 {
                     IdentityResult identityResult = null;
                     try
@@ -201,7 +211,7 @@ namespace APIProject.Controllers
                         {
                             identityResult = await _adminRepository.AddRole(applicationUser, role.Name);
                         }
-                        else if (!(user.IsSelected && !(await _adminRepository.CheckUserIsMemberofRole(applicationUser, role.Name))))
+                        else if (!user.IsSelected && (await _adminRepository.CheckUserIsMemberofRole(applicationUser, role.Name)))
                         {
                             identityResult = await _adminRepository.RemoveRole(applicationUser, role.Name);
                         }
@@ -212,13 +222,17 @@ namespace APIProject.Controllers
                     }
                     catch (Exception x)
                     {
-                        results.Add(identityResult);
+                        return StatusCode(StatusCodes.Status500InternalServerError);
                     }
+           
 
-                    results.Add(identityResult);
+                    //results.Add(identityResult);
                 }
 
-                return Ok(results);
+                return Ok(new ApiResponse() 
+                {
+                    Succeeded=true
+                });
 
             }
             catch (Exception x) 
@@ -230,9 +244,17 @@ namespace APIProject.Controllers
         }
 
         [HttpGet("Users")]
-        public  List<ApplicationUser> Users() 
+        public UsersViewModel Users() 
         {
-            return _adminRepository.GetUsers();
+            
+            //return _adminRepository.GetUsers();
+
+            IEnumerable<UserViewModel> users= _adminRepository.GetUsersRoles();
+            UsersViewModel usersView = new UsersViewModel
+            {
+                Users = users
+            };
+            return usersView;
         }
 
         [HttpPost("DeleteUser")]
@@ -262,7 +284,7 @@ namespace APIProject.Controllers
 
         }
 
-        [HttpPost("DeleteRole")]
+        [HttpGet("DeleteRole/{id}")]
         public async Task<IActionResult> DeleteRole(string id) 
         {
             try 

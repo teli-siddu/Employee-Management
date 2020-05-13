@@ -1,0 +1,101 @@
+﻿
+@model Entities.ViewModels.UserRegisterViewModel;
+
+
+<style>
+    .register-container .form-control {
+        border: none;
+        border-bottom: 1px solid #3333;
+        border-radius: inherit;
+        background: transparent;
+    }
+
+    .register-container input:focus {
+        outline: none;
+        border-bottom: 1px solid blue;
+        box-shadow: none;
+    }
+
+    .input-group-addon {
+        font-size: 25px;
+        color: #3333;
+    }
+
+    .modal-content {
+        border: none !important;
+    }
+
+    .modal-header {
+        border: none !important;
+    }
+
+    .register-container {
+        background-image: repeating-linear-gradient(45deg, black, transparent 100px);
+    }
+</style>
+
+
+
+<div class="register-container h-100 p-1">
+    <div class="modal-dialog">
+    
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title w-100 text-center">
+                    <img src="~/Images/NoProfile.png" />
+                </h3>
+            </div>
+            <div class="modal-body">
+                <form asp-action="register" asp-controller="Account" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-user "></span>
+                            </span>
+                            <input type="text" asp-for="Email" class="form-control" placeholder="User Name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-lock"></span>
+                            </span>
+                            <input type="password" asp-for="Password" class="form-control" placeholder="Password" />
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-lock"></span>
+                            </span>
+                            <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Password" />
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success btn-lg w-100">register</button>
+                       
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

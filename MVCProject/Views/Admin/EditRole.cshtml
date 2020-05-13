@@ -1,0 +1,47 @@
+﻿
+@model Entities.ViewModels.EditRoleVieModel
+
+<style>
+</style>
+<div class="add-role-wrapper p-1">
+   
+    <div class="modal-dialog">
+        <div class="modal-content w-75">
+            <div class="modal-body">
+                <form asp-controller="Admin" asp-action="EditRole" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <input type="text" asp-for="RoleName" class="form-control" placeholder="Role Name" />
+                        </div>
+                    </div>
+
+                    <div class="form-check">
+                        <h5>Roles</h5>
+                        @for (int i=0;i<Model.Users.ToList().Count();i++)
+                        {
+                    <div class="input-group">
+                        <input type="hidden" asp-for="@Model.Users[i].UserId" />
+                        <input type="hidden" asp-for="@Model.Users[i].UserName" />
+
+                        <label asp-for="@Model.Users[i].IsSelected"> @Model.Users[i].UserName</label>  <input type="checkbox" asp-for="@Model.Users[i].IsSelected" class="form-check-input" />
+                    </div>
+                        }
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <input type="submit" class="btn btn-primary w-100" value="Update" />
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

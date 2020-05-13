@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Entities.ViewModels.RoleViewModel>
+
+    <style>
+ 
+
+    </style>
+<div class="roles-container p-1">
+    <div class="navigation-options m-2">
+        <a asp-controller="Admin" asp-action="CreateRole" class="p-1">Create Role</a>
+    </div>
+    <div class="roles row">
+        @foreach (var role in Model)
+        {
+            <div class="role-card card text-center col-md-3 m-1 p-1">
+               
+                <div class="role-card-body card-body p-1">
+                    <h5 class="card-title"> @role.RoleName</h5>
+                    <div class="role-options">
+                        <a asp-controller="Admin"  class="btn btn-primary m1" asp-action="EditRole" asp-route-id="@role.RoleId"><i class="fa fa-edit"></i></a>
+
+                      <a asp-controller="Admin" class="btn btn-danger m1" asp-action="DeleteRole" asp-route-id="@role.RoleId"><i class="fa fa-remove"></i></a>
+                    </div>
+                </div>
+              
+            </div>
+        }
+
+    </div>
+
+</div>

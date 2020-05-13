@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts;
+using Entities.Helper;
 using Entities.Models;
 using Entities.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,9 @@ namespace APIProject.Controllers
 
             if (signInResult.Succeeded) 
             {
-                return Ok(signInResult);
+                var apiResponse = new ApiResponse(signInResult.Succeeded, new string[] { });
+              
+                return Ok(apiResponse);
             }
             else 
             {
@@ -52,6 +55,7 @@ namespace APIProject.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
 
 
         [HttpPost("Authenticate")]

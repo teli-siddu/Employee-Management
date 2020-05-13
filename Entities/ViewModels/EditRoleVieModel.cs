@@ -9,6 +9,7 @@ namespace Entities.ViewModels
     {
         public string Id { get; set; }
         public string RoleName { get; set; }
-        public IEnumerable<string> Users { get; set; }
+       
+        public List<RoleUsersViewModel> Users { get; set; }
     }
 }

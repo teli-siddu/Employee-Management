@@ -1,7 +1,11 @@
 ﻿using Contracts;
+using Entities;
+using Entities.Helper;
 using Entities.Models;
+using Entities.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -9,32 +13,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Repository
 {
-    public class AdminRepository : IAdminRepository
+    public class AdminRepository :RepositoryBase<ApplicationUser> ,IAdminRepository
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RepositoryContext _repositoryContext;
 
-        public AdminRepository(RoleManager<IdentityRole> roleManager,UserManager<ApplicationUser> userManager)
+        public AdminRepository(RoleManager<ApplicationRole> roleManager,UserManager<ApplicationUser> userManager,Entities.RepositoryContext repositoryContext):base(repositoryContext)
         {
             this._roleManager = roleManager;
             this._userManager = userManager;
+            this._repositoryContext = repositoryContext;
         }
-        public async Task<IdentityResult> CreateRole(IdentityRole identityRole)
+        public async Task<IdentityResult> CreateRole(ApplicationRole ApplicationRole)
         {
             
-            return  await _roleManager.CreateAsync(identityRole);
+            return  await _roleManager.CreateAsync(ApplicationRole);
         }
 
-        public async Task<IdentityRole> FindRoleById(string id)
+        public async Task<ApplicationRole> FindRoleById(string id)
         {
             return await _roleManager.FindByIdAsync(id);
         }
 
-        public IEnumerable<IdentityRole> GetRoles()
+        public IEnumerable<RoleViewModel> GetRoles()
         {
-            return  _roleManager.Roles;
+
+            var roles= _roleManager.Roles.Select(x => new RoleViewModel
+            {
+                RoleId = x.Id,
+                RoleName = x.Name
+            }).ToList();
+            return roles;
         }
 
         public async Task<IEnumerable<string>> GetUsersByRoleName(string roleName)
@@ -49,23 +62,87 @@ namespace Repository
             return await _userManager.IsInRoleAsync(user, roleName);
         }
 
-        public async Task<IdentityRole> GetRoleById(string roleId)
+        public async Task<ApplicationRole> GetRoleById(string roleId)
         {
             return await _roleManager.FindByIdAsync(roleId);
+
+            
 
         }
 
         public List<ApplicationUser> GetUsers() 
         {
-            return  _userManager.Users.ToList();
+            return _userManager.Users.ToList();
+        }
+
+        public List<UserViewModel> GetUsersRoles() 
+        {
+            //IQueryable<ApplicationUser> users=  _userManager.Users;
+
+            // IQueryable<ApplicationRole> roles = _roleManager.Roles;
+            // IQueryable<ApplicationUserRole> userRoles = _repositoryContext.UserRoles;
+            // var usewerss = users.Select(x => new ApplicationUser()
+            // {
+            //     UserRoles = userRoles
+            //                  .Where(ur => ur.UserId == x.Id)
+            //                  .Select(ur => new ApplicationUserRole()
+            //                  {
+            //                      Role = ur.Role
+            //                  })
+            //                  .ToList(),
+            //     UserName = x.UserName,
+            //     Email = x.Email
+            // })
+            //   .Select(x => new ApplicationUser { UserName = x.UserName, UserRoles = x.UserRoles })
+            //.ToList();
+            //return usewerss;
+            IQueryable<ApplicationUser> users= _repositoryContext.Users;
+            IQueryable<ApplicationRole> roles= _repositoryContext.Roles;
+            IQueryable<ApplicationUserRole> userRoles = _repositoryContext.UserRoles;
+
+
+            var users1 = users.Select(x=>new UserViewModel() 
+                         {
+                             Roles = x.UserRoles.Select(x => new UserRoleViewModel {RoleName=x.Role.Name,RoleId=x.RoleId }).ToArray(),
+                             UserName =x.UserName,
+                             UserId=x.Id
+                             
+
+                         })
+                         .ToList();
+            //var ss = users.Select(x => x.UserRoles).ToList();
+
+            //var x=  users.Join(userRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { u, ur })
+            //    .Join(roles, uur => uur.ur.RoleId, r => r.Id, (uur, r) => new { uur, r })
+            //    .Select(m => new
+            //    {
+            //        UserName = m.uur.u.UserName,
+            //        Email = m.uur.u.Email,
+            //        Roles = m.r.Name
+            //    }).ToList();
+
+
+
+
+          
+            
+
+
+
+            return users1;
         }
 
         public async Task<IdentityResult> AddRole(ApplicationUser user,string role) 
         {
-            return await _userManager.AddToRoleAsync(user, role);
+            IdentityResult result= await _userManager.AddToRoleAsync(user, role);
+
+            return result;
+
+
         }
         public async Task<IdentityResult> RemoveRole(ApplicationUser user, string role)
         {
+            
             return await _userManager.RemoveFromRoleAsync(user, role);
         }
 
@@ -74,7 +151,7 @@ namespace Repository
             return await _userManager.FindByNameAsync(username);
         }
         
-        public async Task<IdentityResult> EditRole(IdentityRole role) 
+        public async Task<IdentityResult> EditRole(ApplicationRole role) 
         {
            return  await  _roleManager.UpdateAsync(role);
 
@@ -94,7 +171,7 @@ namespace Repository
 
         public async Task<IdentityResult> DeleteRoleById(string roleId) 
         {
-            IdentityRole role= await _roleManager.FindByIdAsync(roleId);
+            ApplicationRole role= await _roleManager.FindByIdAsync(roleId);
             return await _roleManager.DeleteAsync(role);
         }
 

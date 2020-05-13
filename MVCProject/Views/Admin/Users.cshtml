@@ -1,0 +1,51 @@
+﻿
+@model Entities.ViewModels.UsersViewModel
+
+    <div class="users-container p-1">
+        <div class="navigation-options m-2">
+            <a asp-controller="Admin" asp-action="Createuser" class="p-1">Create user</a>
+        </div>
+        <div class="users row">
+            @foreach (var user in Model.Users)
+            {
+            <div class="user-card card  col-md-3 m-1 p-1">
+                <svg class="bi bi-three-dots-vertical" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="
+    position: absolute;
+    right: 0%;
+">
+                    <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="user-card-body card-body p-1">
+                    @*<h5 class="card-title"> @user.UserName</h5>
+            <div class="user-options">
+                <a asp-controller="Admin" class="btn btn-primary m1" asp-action="Edituser" asp-route-id="@user.userId"><i class="fa fa-edit"></i></a>
+
+                <a asp-controller="Admin" class="btn btn-danger m1" asp-action="Deleteuser" asp-route-id="@user.userId"><i class="fa fa-remove"></i></a>
+            </div>*@
+                    <div class="user-name">
+                        <span><strong>@user.UserName</strong></span>
+                    </div>
+                    <div class="user-roles">
+                        Roles:
+                        @foreach (var role in user.Roles)
+                        {
+                            <span class="user-role m-1"> @role.RoleName </span>
+                        }
+                    </div>
+                    <div class="user-footer card-footer">
+                        <div class="user-options">
+                            <a asp-controller="Admin" class="btn btn-primary m1" asp-action="Edituser" asp-route-id="@user.UserId"><i class="fa fa-edit"></i></a>
+
+                            <a asp-controller="Admin" class="btn btn-danger m1" asp-action="Deleteuser" asp-route-id="@user.UserId"><i class="fa fa-remove"></i></a>
+                        </div>
+                    </div>
+                  
+                </div>
+
+            </div>
+            }
+
+        </div>
+
+    </div>
+

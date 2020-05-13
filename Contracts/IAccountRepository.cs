@@ -14,6 +14,8 @@ namespace Contracts
         Task<IdentityUser> Login(ApplicationUser user);
         Task SignOut();
         Task<SignInResult> SignIn(string userName, string password, bool rememberMe);
-        Task<ApplicationUserViewModel> GetSecurityToken(string userName, string password);
+        Task<AccessTokenViewModel> GetSecurityToken(string userName, string password);
+
+        string GenerateRefreshToken();
     }
 }
