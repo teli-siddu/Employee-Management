@@ -1,0 +1,37 @@
+﻿
+@model Entities.ViewModels.CreateRoleViewModel
+
+<style>
+</style>
+<div class="add-role-wrapper p-1">
+
+    <div class="modal-dialog">
+        <div class="modal-content w-75">
+            <div class="modal-body">
+                <form method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <input type="text" asp-for="RoleName" class="form-control" placeholder="Role Name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            @if (Model?.RoleId == null)
+                            {
+                                <input type="submit" class="btn btn-primary w-100" asp-action="AddRole" asp-controller="Roles" value="Submit" />
+                            }
+                            else
+                            {
+                                <input type="submit" class="btn btn-primary w-100" asp-action="EditRole" asp-controller="Roles" value="Update" />
+                            }
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

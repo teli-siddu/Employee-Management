@@ -1,0 +1,322 @@
+﻿@model Entities.ViewModels.UserViewModel
+
+
+<link href="~/css/Card.css" rel="stylesheet" />
+
+
+<style>
+    .emp-btn-rnd:hover {
+        color: #fff;
+        background-color: #929495;
+        border-color: #929495;
+    }
+
+    .emp-submit-btn {
+        border-radius: 25px;
+    }
+
+    .emp-btn-rnd:focus, .emp-btn-rnd:active {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .emp-btn-rnd {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 50%;
+        outline: none
+    }
+
+    .btn-outline-dark {
+        color: #929495;
+        border-color: #929495;
+    }
+
+    .register-container .form-control {
+        border: none;
+        border-bottom: 1px solid #3333;
+        border-radius: inherit;
+        background: transparent;
+    }
+
+    .register-container input:focus {
+        outline: none;
+        border-bottom: 1px solid blue;
+        box-shadow: none;
+    }
+
+    .input-group-addon {
+        font-size: 25px;
+        color: #3333;
+    }
+
+    .modal-content {
+        border: none !important;
+    }
+
+    .modal-header {
+        border: none !important;
+    }
+
+    .register-container {
+        /*background-image: repeating-linear-gradient(45deg, black, transparent 100px);*/
+    }
+
+    .card-title-seperator-center:after, .card-title-seperator-right:after, .card-title-seperator:after {
+        content: "";
+        display: block;
+        width: 30px;
+        height: 4px;
+        border-radius: 3px;
+        background-color: #F58634;
+        position: relative;
+        bottom: -3px;
+    }
+
+    .form-group {
+        display: none;
+    }
+</style>
+
+<script>
+
+
+</script>
+
+
+<div class="register-container h-100 p-1">
+    <div class="">
+
+
+        <div class="card register-card">
+            @*<div class="modal-header">
+                    <h3 class="modal-title w-100 text-center">
+                        <img src="~/Images/NoProfile.png" />
+                    </h3>
+                </div>*@
+            <div class="card-body register-card-body">
+
+                <div class="d-flex" style="justify-content:space-between">
+                    <h5 class="card-title register-card-titrle card-title-seperator">
+                        User Details
+                    </h5>
+
+                    <a href="javascript:void(0)" class="btn emp-btn-rnd btn-outline-dark" id="edit_user_detail"> <i class="fa fa-pencil"></i></a>
+                </div>
+
+
+                <form asp-action="EditUser" asp-controller="Users" asp-route-Id="" method="post">
+                    <div class="user-details">
+                        <div class="row">
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-user "></span>
+                                        </span>
+                                        <input type="text" asp-for="UserName" class="form-control" placeholder="User Name" />
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <label class="pmd-list-subtitle">User Name</label>
+                                    <p class="pmd-list-title">&nbsp;@Model.UserName</p>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="text" asp-for="FirstName" class="form-control" placeholder="First Name" />
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <label class="pmd-list-subtitle">First Name</label>
+                                    <p class="pmd-list-title">&nbsp;@Model.FirstName</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="text" asp-for="LastName" class="form-control" placeholder="Last Name" />
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <label class="pmd-list-subtitle">Last Name</label>
+                                    <p class="pmd-list-title">&nbsp;@Model.LastName</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="text" asp-for="DateOfBirth" class="form-control" placeholder="Date of Birth" />
+                                    </div>
+                                </div>
+
+                                <div class="media-body">
+                                    <label class="pmd-list-subtitle">Date of Birth</label>
+                                    <p class="pmd-list-title">&nbsp;@Model.DateOfBirth</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-city"></span>
+                                        </span>
+                                        <input type="text" asp-for="City" class="form-control" placeholder="City" />
+
+                                    </div>
+
+                                </div>
+
+                                <div class="media-body">
+                                    <label class="pmd-list-subtitle">City</label>
+                                    <p class="pmd-list-title">&nbsp;@Model.City</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-phone"></span>
+                                        </span>
+                                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
+
+                                    </div>
+
+                                </div>
+                                <div class="media-body">
+                                    <label class="pmd-list-subtitle">Phone Number</label>
+                                    <p class="pmd-list-title">&nbsp;@Model.PhoneNumber</p>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="roles-details" id="Roles_Details">
+                        <div class="d-flex" style="justify-content:space-between">
+                            <h5 class="card-title register-card-titrle card-title-seperator">
+                                Roles Details
+                            </h5>
+
+                            <a href="javascript:void(0)" class="btn emp-btn-rnd btn-outline-dark" id="edit_roles_detail"> <i class="fa fa-pencil"></i></a>
+                        </div>
+
+                        <div class="row" id="">
+
+                            @for (int i = 0; i < Model.Roles.Count; i++)
+                            {
+
+                                <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                                <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
+                                @*@if (@Model.Roles[i].IsSelected)
+            {
+                <div class="col-md-3">
+                    <div class="media-body">
+                        <p>@Model.Roles[i].RoleName</p>
+                    </div>
+                </div>
+            }*@
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label asp-for="@Model.Roles[i].IsSelected"> @Model.Roles[i].RoleName </label>  <input type="checkbox" asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
+                                        </div>
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+
+
+                            }
+
+
+                        </div>
+                        <div class="row">
+                            @for (int i = 0; i < Model.Roles.Count; i++)
+                            {
+
+
+                                @if (@Model.Roles[i].IsSelected)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="media-body">
+                                            <p>@Model.Roles[i].RoleName</p>
+                                        </div>
+                                    </div>
+                                }}
+                        </div>
+
+                        <div class="form-submit">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success btn-sm  btn">Update</button>
+
+                                    <button type="button" id="Cancle" class="btn  btn-sm  btn">Cancle</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+</form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#edit_user_detail").click(function () {
+                $(".form-group").show();
+                $(".media-body").hide();
+            })
+            $("#Cancle").click(function () {
+                $(".form-group").hide();
+                $(".media-body").show();
+
+            })
+           
+        })
+
+        function reloadRoles()
+        {
+
+        }
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+

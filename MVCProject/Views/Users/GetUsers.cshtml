@@ -1,8 +1,14 @@
 ﻿
 @model Entities.ViewModels.UsersViewModel
-<script src="~/Scripts/jquery-1.7.1.js"></script>
+
 <link href="~/css/Card.css" rel="stylesheet" />
 <style>
+
+    .card-subtitle {
+        font-size: 13px;
+        font-weight: 500;
+        color: #adb5bd;
+    }
 
     .user-card {
         border: 1px solid #3333;
@@ -65,7 +71,7 @@
 
 </style>
 <style>
- 
+
     /*card*/
 
     .list-user-details {
@@ -83,11 +89,11 @@
 
 
 
-    .list-user-details .fa-calendar, .list-user-details .fa-calendar-week, .list-user-details .fa-file, .list-user-details .glyphicon-cd, .list-user-details .glyphicon-calendar, .list-user-details .glyphicon-list-alt {
-        font-size: 30px !important;
-        color: #3333 !important;
-        margin-right: 3rem !important;
-    }
+        .list-user-details .fa-calendar, .list-user-details .fa-calendar-week, .list-user-details .fa-file, .list-user-details .glyphicon-cd, .list-user-details .glyphicon-calendar, .list-user-details .glyphicon-list-alt {
+            font-size: 30px !important;
+            color: #3333 !important;
+            margin-right: 3rem !important;
+        }
 
     .list-user-details {
         display: flex;
@@ -125,10 +131,142 @@
             color: #3333 !important;
             margin-right: 2rem !important;
         }
+
+    .navigation-otions {
+        margin: 10px 0px;
+    }
 </style>
 
-<script>
 
+
+
+
+<div class="component-section section" id="user_List_Section">
+    <div class="card">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="navigation-otions" style="margin-bottom:30px">
+                    <a class="btn" asp-controller="Users" asp-action="AddUser">
+                        <i class="fa fa-plus-circle"></i>
+                        <span class="nav-text">
+                            Add User
+                        </span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="tab-content">
+            <!-- Grid View -->
+            <div class="" id="">
+                <div class="row">
+
+
+                    @foreach (var user in Model.Users)
+                    {
+                        <div class="col-md-4 col-xl-4 col-12">
+                            <!-- Card Component -->
+                            <div class="card info-card">
+                                <!-- Card Header -->
+                                <div class="header d-flex card-header">
+                                    <a class="user-type-image" href="javascript:void(0);">
+                                        <img src="~/Images/NoProfile.png" width="60" />
+                                        @*<i class="fa fa-file-pdf-o" style="font-size: 60px; color: red;"></i>*@
+                                    </a>
+                                    <div class="card-subheader">
+                                        <h6 class="user-card-title">@user.UserName</h6>
+                                        <p class="card-subtitle">
+                                           
+                                            @foreach (var role in user.Roles)
+                                            {
+                                                <span>@role.RoleName&nbsp;</span>
+                                            }
+                                        <p>
+                                    </div>
+                                    <div class="user-options">
+
+                                    </div>
+                                </div>
+                                <div class="user-actions" style="display:none">
+                                    <ul class="user-action-list-group">
+                                        <li class="user-action-list"><a class="user-action-link" asp-action="EditUser" asp-controller="Users" asp-route-Id="@user.UserId"><span class="glyphicon glyphicon-eye-open"></span>Edit User</a></li>
+                                        <li class="user-action-list"><a class="user-action-link" asp-action="EditUser" asp-controller="User" asp-route-Id=""><span class="glyphicon glyphicon-eye-open"></span>Edit User</a></li>
+                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-export"></span>Upload New Version</a></li>
+                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
+                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-random"></span>Convert to PDF</a></li>
+                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+
+                                    </ul>
+                                </div>
+
+                                <!-- List Group Component -->
+                                <ul class="list-group card-body card-body">
+                                    <li class="list-user-details">
+                                        @*<i class="fa fa-file" aria-hidden="true"></i>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle">Name</label>
+                                            <p class="pmd-list-title">@user.Name&nbsp;</p>
+                                        </div>
+                                    </li>
+                                    <li class="list-user-details">
+                                        @*<span class="glyphicon glyphicon-cd"></span>*@
+                                        @*<i class="fa glyphicon-cd" aria-hidden="true"></i>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle mb-0">Phone</label>
+                                            <p class="pmd-list-title">@user.PhoneNumber&nbsp;</p>
+                                        </div>
+                                    </li>
+                                    <li class="list-user-details">
+                                        @*<span class="glyphicon glyphicon-calendar"></span>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle">City</label>
+                                            <p class="pmd-list-title">
+                                                @user.City&nbsp;
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="list-user-details">
+
+                                        @*<span class="glyphicon glyphicon-list-alt"></span>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle">Date of Birth</label>
+                                            <p class="pmd-list-title">@user.DateOfBirth.ToString("dd-MMM-yyyy")&nbsp;</p>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                                <!-- List Group Component End -->
+                                <!-- Card Footer -->
+                                <div class="card-footer user-card-border">
+                                    <a title="View More" href="employee-detail.html" class="btn pmd-btn-flat pmd-ripple-effect btn-primary">View More</a>
+                                </div>
+                            </div>
+                            <!-- Card Component End -->
+                        </div>
+                    }
+
+
+
+
+                </div>
+            </div>
+            <!-- Grid View End -->
+            <!-- List View Start -->
+            <!-- List View End -->
+        </div>
+    </div>
+
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    
     $(function () {
         $(".user-options").click(function () {
             if ($(this).parent().next(".user-actions").is(":visible")) {
@@ -165,114 +303,6 @@
 
     }
 </script>
-
-
-
-
-
-<div class="component-section section" id="user_List_Section">
-    <div class="card">
-
-        
-        <div class="tab-content">
-            <!-- Grid View -->
-            <div class="" id="">
-                <div class="row">
-
-
-                    @foreach (var user in Model.Users)
-                    {
-                        <div class="col-md-4 col-xl-4 col-12">
-                            <!-- Card Component -->
-                            <div class="card info-card">
-                                <!-- Card Header -->
-                                <div class="header d-flex card-header">
-                                    <a class="user-type-image" href="javascript:void(0);">
-                                        <img src="~/Images/NoProfile.png" width="60"  />
-                                        @*<i class="fa fa-file-pdf-o" style="font-size: 60px; color: red;"></i>*@
-                                    </a>
-                                    <div class="card-subheader">
-                                        <h6 class="user-card-title">@user.UserName</h6>
-                                        <p class="card-subtitle">&nbsp;
-                                            @foreach(var role in user.Roles) 
-                                            {
-                                                <span>@role.RoleName &nbsp;</span>
-                                            }
-                                            <p>
-                                    </div>
-                                    <div class="user-options">
-
-                                    </div>
-                                </div>
-                                <div class="user-actions" style="display:none">
-                                    <ul class="user-action-list-group">
-                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-eye-open"></span>Open</a></li>
-                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-export"></span>Upload New Version</a></li>
-                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
-                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-random"></span>Convert to PDF</a></li>
-                                        <li class="user-action-list"><a class="user-action-link" href="#"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
-
-                                    </ul>
-                                </div>
-
-                                <!-- List Group Component -->
-                                <ul class="list-group card-body card-body">
-                                    <li class="list-user-details">
-                                        @*<i class="fa fa-file" aria-hidden="true"></i>*@
-                                        <div class="media-body">
-                                            <label class="pmd-list-subtitle">Name</label>
-                                            <p class="pmd-list-title">&nbsp;@user.Name</p>
-                                        </div>
-                                    </li>
-                                    <li class="list-user-details">
-                                        @*<span class="glyphicon glyphicon-cd"></span>*@
-                                        @*<i class="fa glyphicon-cd" aria-hidden="true"></i>*@
-                                        <div class="media-body">
-                                            <label class="pmd-list-subtitle mb-0">Phone</label>
-                                            <p class="pmd-list-title">&nbsp;@user.PhoneNumber</p>
-                                        </div>
-                                    </li>
-                                    <li class="list-user-details">
-                                        @*<span class="glyphicon glyphicon-calendar"></span>*@
-                                        <div class="media-body">
-                                            <label class="pmd-list-subtitle">City</label>
-                                            <p class="pmd-list-title">&nbsp;@user.City
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="list-user-details">
-
-                                        @*<span class="glyphicon glyphicon-list-alt"></span>*@
-                                        <div class="media-body">
-                                            <label class="pmd-list-subtitle">Date of Birth</label>
-                                            <p class="pmd-list-title">&nbsp;@user.DateOfBirth.ToString("dd-MMM-yyyy")</p>
-                                        </div>
-                                    </li>
-
-                                </ul>
-                                <!-- List Group Component End -->
-                                <!-- Card Footer -->
-                                <div class="card-footer user-card-border">
-                                    <a title="View More" href="employee-detail.html" class="btn pmd-btn-flat pmd-ripple-effect btn-primary">View More</a>
-                                </div>
-                            </div>
-                            <!-- Card Component End -->
-                        </div>
-                    }
-
-
-
-
-                </div>
-            </div>
-            <!-- Grid View End -->
-            <!-- List View Start -->
-            <!-- List View End -->
-        </div>
-    </div>
-
-</div>
-
 
 
 

@@ -61,7 +61,8 @@ namespace APIProject.Extensions
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
-            
+            services.AddScoped<IRolesRepository, RolesRepository>();
+
         }
 
         public static void ConfigureAppSettings(this IServiceCollection services,IConfiguration configuration) 

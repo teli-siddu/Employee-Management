@@ -5,16 +5,9 @@ using System.Text;
 
 namespace Entities.ViewModels
 {
-    public class UserRegisterViewModel
+    public class UserRegisterViewModel:UserViewModel
     {
-        [Required]
-        public string Email { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string City { get; set; }
+     
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -25,6 +18,7 @@ namespace Entities.ViewModels
         [Compare("Password",ErrorMessage = "password and confirm password do not match")]
         public string ConfirmPassword { get; set; }
 
+        //public List<KeyValuePair<string,string>> roles { get; set; }
 
     }
 }

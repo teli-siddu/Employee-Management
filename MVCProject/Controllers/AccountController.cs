@@ -53,31 +53,14 @@ namespace MVCProject.Controllers
 
                 var xx= tokenS.Claims.First(x => x.Type == "UserMenu").Value;
                 HttpContext.Session.SetString("token",x.Token);
-                return RedirectToAction("index","home");
+                return RedirectToAction("index","DashBoard");
             }
             
             return View();
         }
 
         [HttpPost]
-        public IActionResult Register(UserRegisterViewModel user)
-        {
-            HttpClient httpClient = _httpClientFactory.CreateClient("EmpMGMTClient");
-            var json = JsonConvert.SerializeObject(user);
-            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "Application/json");
-            HttpResponseMessage response = httpClient.PostAsync("api/Users/Register", stringContent).Result;
-            string jsonData = response.Content.ReadAsStringAsync().Result;
-            var x = JsonConvert.DeserializeObject(jsonData);
-            return Ok(x);
-          
-        }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
+   
 
 
             public IActionResult LogOut() 

@@ -1,16 +1,26 @@
-﻿@model IEnumerable<Entities.ViewModels.RoleViewModel>
-    <link href="~/css/Card.css" rel="stylesheet" />
-    <style>
- 
+﻿
 
-    </style>
-    <div class="component-section section" id="roles_List_Section">
-        <div class="navigation-options m-2">
-            <a asp-controller="Admin" asp-action="CreateRole" class="p-1">Create Role</a>
-        </div>
-        <div class="roles row">
-            @foreach (var role in Model)
-            {
+@model IEnumerable<Entities.ViewModels.RoleViewModel>
+<link href="~/css/Card.css" rel="stylesheet" />
+<style>
+    .navigation-otions {
+    margin:10px 0px;
+    }
+</style>
+<div class="component-section section" id="roles_List_Section">
+    <div class="navigation-options" style="        margin-bottom: 30px
+">
+        <a class="btn" asp-controller="Roles" asp-action="AddRole">
+            <i class="fa fa-plus-circle"></i>
+            <span class="nav-text">
+                Add Role
+            </span>
+        </a>
+        
+    </div>
+    <div class="roles row">
+        @foreach (var role in Model)
+        {
             <div class="col-md-4">
 
 
@@ -30,9 +40,9 @@
                             </p>
                         </div>
                         <div class="role-options">
-                            <a asp-controller="Admin" class="btn" asp-action="EditRole" asp-route-id="@role.RoleId"><i class="fa fa-edit"></i></a>
+                            <a asp-controller="Roles" class="btn" asp-action="EditRole" asp-route-Id="@role.RoleId"><i class="fa fa-edit"></i></a>
 
-                            <a asp-controller="Admin" class="btn" asp-action="DeleteRole" asp-route-id="@role.RoleId"><i class="fa fa-remove"></i></a>
+                            <a asp-controller="Roles" class="btn" asp-action="DeleteRole" asp-route-Id="@role.RoleId;"><i class="fa fa-remove"></i></a>
                         </div>
                     </div>
                     <div class="card-footer user-card-border">
@@ -41,8 +51,8 @@
 
                 </div>
             </div>
-            }
-
-        </div>
+        }
 
     </div>
+
+</div>

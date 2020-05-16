@@ -1,0 +1,145 @@
+﻿
+@model Entities.ViewModels.UsersViewModel
+
+<style>
+    .title-label {
+        color: rgba(0,0,0,.64);
+    }
+    .user-role-header {
+        /*min-height: 50px;
+        height: 50px;*/
+        /* overflow-y: scroll; */
+        /*overflow: auto;*/
+    }
+    .list-group-item {
+    
+        border:none;
+    }
+    .list-group {
+        border: none;
+        padding-bottom: 1px;
+    }
+    .title-label {
+    font-size:13px;
+    }
+    .user-edit-btn, .user-delete-btn {
+        border: none;
+        background: transparent;
+        min-width: 40px;
+        width: 40px;
+        color: #929495;
+        border: none;
+        font-size: 20px;
+    }
+    .user-card {
+    margin-bottom:15px;
+    }
+    .user-role-image {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-right: 1rem;
+        overflow: hidden;
+        display: inline-block
+    }
+</style>
+    <div class="users-container p-1">
+        <div class="navigation-options m-2">
+            <a asp-controller="Admin" asp-action="Createuser" class="p-1">Create user</a>
+        </div>
+        <div class="users row">
+            @foreach (var user in Model.Users)
+            {
+
+            <div class="col-md-4">
+                <div class="user-card card m">
+
+                    <div class="user-role-header card-header d-flex align-self-stretch  bg-white">
+
+                       <a href="#" class="user-role-image"><img src="~/Images/NoProfile.png" style="width:40px;height:40px" /></a> 
+
+                        <div class="user-name">
+                            <h6 class="card-title m-0">@user.UserName</h6>
+                            @foreach (var role in user.Roles)
+                            {
+                                <span class="card-subtitle">&nbsp;@role.RoleName</span>
+                            }
+
+                        </div>
+                        <div class="user-options d-flex">
+                            <a asp-controller="Admin" class="btn user-edit-btn m1 border-0" asp-action="Edituser" asp-route-id="@user.UserId"><i class="fa fa-edit"></i></a>
+
+                            <a asp-controller="Admin" class="btn m1 user-delete-btn border-0" asp-action="Deleteuser" asp-route-id="@user.UserId"><i class="fa fa-remove"></i></a>
+                        </div>
+                        <svg class="bi bi-three-dots-vertical" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="
+    position: absolute;
+    right: 0%;
+">
+                            <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="user-card-body card-body p-0">
+                        @*<h5 class="card-title"> @user.UserName</h5>
+                <div class="user-options">
+                    <a asp-controller="Admin" class="btn btn-primary m1" asp-action="Edituser" asp-route-id="@user.userId"><i class="fa fa-edit"></i></a>
+
+                    <a asp-controller="Admin" class="btn btn-danger m1" asp-action="Deleteuser" asp-route-id="@user.userId"><i class="fa fa-remove"></i></a>
+                </div>*@
+
+                        @*<div class="user-name">
+                    <span><strong>@user.UserName</strong></span>
+                </div>
+                <div class="user-roles">
+                    Roles:
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="user-role m-1"> @role.RoleName </span>
+                    }
+                </div>*@
+
+                        <ul class="list-group row flex-row">
+                            <li class="list-group-item col-md-6 p-1">
+                                <label class="title-label m-0">Name</label>
+                                <p class="role-title">&nbsp;@user?.Name</p>
+                            </li>
+                            <li class="list-group-item col-md-6 p-1">
+                                <label class="title-label m-0">Mobile</label>
+                                <p class="role-title">&nbsp;@user?.PhoneNumber</p>
+                            </li>
+                            <li class="list-group-item col-md-6 p-1">
+                                <label class="title-label m-0">Email</label>
+                                <p class="role-title">&nbsp;@user?.Email</p>
+                            </li>
+                            <li class="list-group-item col-md-6 p-1">
+                                <label class="title-label m-0">Email</label>
+                                <p class="role-title">&nbsp;@user?.DateOfBirth.ToString("dd-MMM-yyyy")</p>
+                            </li>
+                        </ul>
+
+                        <div class="user-other">
+
+                        </div>
+                        <div class="user-footer card-footer bg-white">
+                            <div class="user-options">
+
+                                <a href="doctor-detail.html" class="btn btn-primary pmd-ripple-effect pmd-btn-flat">
+                                    View
+                                    Profile
+                                </a>
+                                @*<a asp-controller="Admin" class="btn btn-primary m1" asp-action="Edituser" asp-route-id="@user.UserId"><i class="fa fa-edit"></i></a>
+
+                                <a asp-controller="Admin" class="btn btn-danger m1" asp-action="Deleteuser" asp-route-id="@user.UserId"><i class="fa fa-remove"></i></a>*@
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+          
+            }
+
+        </div>
+
+    </div>
+

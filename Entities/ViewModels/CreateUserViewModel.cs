@@ -4,9 +4,7 @@ using System.Text;
 
 namespace Entities.ViewModels
 {
-    public class UsersViewModel
+    public class CreateUserViewModel
     {
-       public IEnumerable<UserViewModel> Users { get; set; }
-
     }
 }

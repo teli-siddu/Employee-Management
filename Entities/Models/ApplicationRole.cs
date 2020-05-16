@@ -14,5 +14,7 @@ namespace Entities.Models
 
         // public virtual ICollection<ApplicationUser> Users { get; set; }
 
+        public bool IsActive { get; set; }
+
     }
 }

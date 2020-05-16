@@ -8,6 +8,7 @@ namespace Entities.Models
 {
     public class ApplicationUser:IdentityUser<string>
     {
+        public bool IsActive { get; set; }
         public string City { get; set; }
 
         public string FirstName { get; set; }
@@ -20,6 +21,9 @@ namespace Entities.Models
                 return $"{FirstName} {LastName}"; 
             }
         }
+    
+      
+        public DateTime DateofBirth { get; set; }
         public string RefreshToken { get; set; }
         public  ICollection<ApplicationUserClaim> Claims { get; set; }
         public  ICollection<ApplicationUserLogin> Logins { get; set; }

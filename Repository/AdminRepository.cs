@@ -75,62 +75,7 @@ namespace Repository
             return _userManager.Users.ToList();
         }
 
-        public List<UserViewModel> GetUsersRoles() 
-        {
-            //IQueryable<ApplicationUser> users=  _userManager.Users;
-
-            // IQueryable<ApplicationRole> roles = _roleManager.Roles;
-            // IQueryable<ApplicationUserRole> userRoles = _repositoryContext.UserRoles;
-            // var usewerss = users.Select(x => new ApplicationUser()
-            // {
-            //     UserRoles = userRoles
-            //                  .Where(ur => ur.UserId == x.Id)
-            //                  .Select(ur => new ApplicationUserRole()
-            //                  {
-            //                      Role = ur.Role
-            //                  })
-            //                  .ToList(),
-            //     UserName = x.UserName,
-            //     Email = x.Email
-            // })
-            //   .Select(x => new ApplicationUser { UserName = x.UserName, UserRoles = x.UserRoles })
-            //.ToList();
-            //return usewerss;
-            IQueryable<ApplicationUser> users= _repositoryContext.Users;
-            IQueryable<ApplicationRole> roles= _repositoryContext.Roles;
-            IQueryable<ApplicationUserRole> userRoles = _repositoryContext.UserRoles;
-
-
-            var users1 = users.Select(x=>new UserViewModel() 
-                         {
-                             Roles = x.UserRoles.Select(x => new UserRoleViewModel {RoleName=x.Role.Name,RoleId=x.RoleId }).ToArray(),
-                             UserName =x.UserName,
-                             UserId=x.Id
-                             
-
-                         })
-                         .ToList();
-            //var ss = users.Select(x => x.UserRoles).ToList();
-
-            //var x=  users.Join(userRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { u, ur })
-            //    .Join(roles, uur => uur.ur.RoleId, r => r.Id, (uur, r) => new { uur, r })
-            //    .Select(m => new
-            //    {
-            //        UserName = m.uur.u.UserName,
-            //        Email = m.uur.u.Email,
-            //        Roles = m.r.Name
-            //    }).ToList();
-
-
-
-
-          
-            
-
-
-
-            return users1;
-        }
+       
 
         public async Task<IdentityResult> AddRole(ApplicationUser user,string role) 
         {
@@ -140,11 +85,7 @@ namespace Repository
 
 
         }
-        public async Task<IdentityResult> RemoveRole(ApplicationUser user, string role)
-        {
-            
-            return await _userManager.RemoveFromRoleAsync(user, role);
-        }
+       
 
         public async Task<ApplicationUser> GetUserByUserName(string username) 
         {

@@ -1,7 +1,7 @@
 ﻿
 @model Entities.ViewModels.UserRegisterViewModel;
 
-
+    <link href="~/css/Card.css" rel="stylesheet" />
 <style>
     .register-container .form-control {
         border: none;
@@ -30,8 +30,9 @@
     }
 
     .register-container {
-        background-image: repeating-linear-gradient(45deg, black, transparent 100px);
+        /*background-image: repeating-linear-gradient(45deg, black, transparent 100px);*/
     }
+
     .card-title-seperator-center:after, .card-title-seperator-right:after, .card-title-seperator:after {
         content: "";
         display: block;
@@ -46,21 +47,25 @@
 
 <div class="register-container h-100 p-1">
     <div class="">
-    
+
 
         <div class="card register-card">
             @*<div class="modal-header">
-                <h3 class="modal-title w-100 text-center">
-                    <img src="~/Images/NoProfile.png" />
-                </h3>
-            </div>*@
+                    <h3 class="modal-title w-100 text-center">
+                        <img src="~/Images/NoProfile.png" />
+                    </h3>
+                </div>*@
             <div class="card-body register-card-body">
-               
+
+                <div class="d-flex">
                     <h5 class="card-title register-card-titrle card-title-seperator">
-                        Register
+                        User Details
                     </h5>
-               
-                <form asp-action="register" asp-controller="Account" method="post">
+
+                    
+                </div>
+
+                <form asp-action="AddUser" asp-controller="Users" method="post">
                     <div class="row">
 
 
@@ -123,12 +128,26 @@
                                     <span class="input-group-addon">
                                         <span class="fa fa-phone"></span>
                                     </span>
+                                    <input type="text" asp-for="Email" class="form-control" placeholder="Email" />
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-phone"></span>
+                                    </span>
                                     <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
 
                                 </div>
 
                             </div>
                         </div>
+
+                        
 
                         <div class="col-md-3">
                             <div class="form-group">
@@ -156,18 +175,65 @@
 
                             </div>
                         </div>
+                  </div>
+                        <div class="roles-details" id="Roles_Details">
+                            <div class="d-flex">
+                                <h5 class="card-title register-card-titrle card-title-seperator">
+                                    Roles Details
+                                </h5>
 
+                               
+                            </div>
 
+                            <div class="row" id="">
 
-                        <div class="col-md-12">
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
+                                @for (int i = 0; i < Model.Roles.Count; i++)
+                                {
 
+                                    <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                                    <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
+                                    @*@if (@Model.Roles[i].IsSelected)
+                    {
+                        <div class="col-md-3">
+                            <div class="media-body">
+                                <p>@Model.Roles[i].RoleName</p>
                             </div>
                         </div>
-                    </div>
+                    }*@
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <label asp-for="@Model.Roles[i].IsSelected"> @Model.Roles[i].RoleName </label>  <input type="checkbox" asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
+                                            </div>
+                                        </div>
+                                        <div>
 
-                </form>
+                                        </div>
+                                    </div>
+
+
+                                }
+
+
+                            </div>
+                           
+
+                            <div class="form-submit">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success btn-sm">Register</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                       
+                        </div>
+
+</form>
             </div>
         </div>
 
