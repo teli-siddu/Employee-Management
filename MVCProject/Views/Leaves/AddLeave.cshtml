@@ -1,0 +1,137 @@
+﻿@model Entities.ViewModels.Leave.AddLeaveViewModel
+
+<link href="~/css/Card.css" rel="stylesheet" />
+<style>
+    .leave-container .form-control {
+        border: none;
+        border-bottom: 1px solid #3333;
+        border-radius: inherit;
+        background: transparent;
+    }
+
+    .leave-container input:focus {
+        outline: none;
+        border-bottom: 1px solid blue;
+        box-shadow: none;
+    }
+
+    .input-group-addon {
+        font-size: 25px;
+        color: #3333;
+    }
+
+    .modal-content {
+        border: none !important;
+    }
+
+    .modal-header {
+        border: none !important;
+    }
+
+    .leave-container {
+        /*background-image: repeating-linear-gradient(45deg, black, transparent 100px);*/
+    }
+</style>
+
+
+
+<div class="leave-container h-100 p-1">
+    <div class="">
+
+
+        <div class="card leave-card">
+            @*<div class="modal-header">
+                    <h3 class="modal-title w-100 text-center">
+                        <img src="~/Images/NoProfile.png" />
+                    </h3>
+                </div>*@
+            <div class="card-body leave-card-body">
+
+                <div class="d-flex">
+                    <h5 class="card-title leave-card-titrle card-title-seperator">
+                        Leave Details
+                    </h5>
+
+
+                </div>
+
+                <form  method="post">
+                    <div class="row">
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        @*<span class="fa fa-user "></span>*@
+                                    </span>
+                                    <input type="text" asp-for="@Model.EmployeeId" class="form-control" placeholder="Employee Id" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-fort-awesome"></span>
+                                    </span>
+                                    <input type="text" asp-for="@Model.LeaveFrom" class="form-control" placeholder="Leave From" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        @*<span class="fa fa-fort-awesome"></span>*@
+                                    </span>
+                                    <input type="text" asp-for="@Model.LeaveTo" class="form-control" placeholder="Leave To" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-fort-awesome"></span>
+                                    </span>
+                                   @{
+                                       List<Entities.Helper.KeyValue<int, string>> LeaveTypes = Model.LeaveTypes;
+                                       LeaveTypes.Add(new Entities.Helper.KeyValue<int, string>(0, "Leave Type"));
+                                       <select asp-for="@Model.LeaveTypeId" class="form-control" asp-items="@(new SelectList(LeaveTypes,"Key","Value" ))"></select>
+
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-fort-awesome"></span>
+                                    </span>
+                                  <textarea asp-for="@Model.Description" class="form-control" placeholder="description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div class="row">
+                        <div class="form-submit">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success btn-sm" asp-action="AddLeave" asp-controller="Leaves">Add Leave</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>

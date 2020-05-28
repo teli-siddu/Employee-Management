@@ -14,10 +14,10 @@ namespace Contracts
         
         Task<IdentityResult> DeleteRole(ApplicationRole role);
 
-        Task<IdentityResult> DeleteRoleById(string roleId);
+        Task<IdentityResult> DeleteRoleById(int roleId);
         Task<IdentityResult> EditRole(ApplicationRole role);
-        Task<ApplicationRole> GetRoleById(string roleId);
-        Task<ApplicationRole> FindRoleById(string id);
+        Task<ApplicationRole> GetRoleById(int roleId);
+        Task<ApplicationRole> FindRoleById(int id);
         Task<List<RoleViewModel>> GetRoles();
     }
 }

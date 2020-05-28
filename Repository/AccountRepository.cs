@@ -20,13 +20,13 @@ namespace Repository
 {
     public class AccountRepository: IAccountRepository
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<Employee> _signInManager;
+        private readonly UserManager<Employee> _userManager;
         private AppSettings _appSettings;
 
         private IMenuRepository _MenuRepository;
 
-        public AccountRepository(SignInManager<ApplicationUser> signInManager,UserManager<ApplicationUser> userManager,IMenuRepository menuRepository, IOptions<AppSettings> appSettings)
+        public AccountRepository(SignInManager<Employee> signInManager,UserManager<Employee> userManager,IMenuRepository menuRepository, IOptions<AppSettings> appSettings)
            
         {
             this._signInManager = signInManager;
@@ -35,7 +35,7 @@ namespace Repository
             this._appSettings = appSettings.Value;
         }
 
-        public async Task<IdentityUser> Login(ApplicationUser user)
+        public async Task<IdentityUser> Login(Employee user)
         {
            await  _signInManager.SignInAsync(user, isPersistent: false);
          
@@ -54,7 +54,7 @@ namespace Repository
               await _signInManager.SignOutAsync();
         }
 
-        public Task<IdentityUser> Register(ApplicationUser user)
+        public Task<IdentityUser> Register(Employee user)
         {
             throw new NotImplementedException();
         }
@@ -62,7 +62,7 @@ namespace Repository
         public async Task<AccessTokenViewModel> GetSecurityToken(string userName, string password)
         {
 
-          ApplicationUser user= await  _userManager.FindByNameAsync(userName);
+          Employee user= await  _userManager.FindByNameAsync(userName);
           bool validUser= await _userManager.CheckPasswordAsync(user, password);
            
             if (!validUser) 
@@ -72,14 +72,15 @@ namespace Repository
 
             var claims = new List<Claim>
             {
-                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                 new Claim(ClaimTypes.NameIdentifier, user.Id)
+                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                 new Claim("Employee_Id",user.Id.ToString())
             };       
             var userRoles = await _userManager.GetRolesAsync(user);
-            var userMenu = _MenuRepository.GetMenu(userRoles[0]);
+           // var userMenu = _MenuRepository.GetMenu(userRoles[0]);
             claims.AddRange(userRoles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
-            claims.Add(new Claim( "UserMenu", JsonConvert.SerializeObject(userMenu)));
+            //claims.Add(new Claim( "UserMenu", JsonConvert.SerializeObject(userMenu)));
            
             //var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_appSettings.SecretKey));

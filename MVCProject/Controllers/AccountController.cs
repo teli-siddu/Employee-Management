@@ -51,7 +51,7 @@ namespace MVCProject.Controllers
                 var jsonToken = handler.ReadToken(x.Token);
                 var tokenS = handler.ReadToken(x.Token) as JwtSecurityToken;
 
-                var xx= tokenS.Claims.First(x => x.Type == "UserMenu").Value;
+                //var xx= tokenS.Claims.First(x => x.Type == "UserMenu").Value;
                 HttpContext.Session.SetString("token",x.Token);
                 return RedirectToAction("index","DashBoard");
             }

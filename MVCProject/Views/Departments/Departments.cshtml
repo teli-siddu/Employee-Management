@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Entities.ViewModels.Departments.DepartmentViewModel>
+
+    <link href="~/css/Card.css" rel="stylesheet" />
+
+<div class="component-section section" id="roles_List_Section">
+    <div class="navigation-options" style=" margin-bottom: 30px
+">
+        <a class="btn" asp-controller="Departments" asp-action="Adddepartment">
+            <i class="fa fa-plus-circle"></i>
+            <span class="nav-text">
+                Add Department
+            </span>
+        </a>
+
+    </div>
+    <div class="roles row">
+        @foreach (var dept in Model)
+        {
+            <div class="col-md-4">
+
+
+                <div class="role-card  info-card card">
+
+                    <div class="role-card-header d-flex card-header">
+                        <a class="user-type-image" href="javascript:void(0);">
+                            <img src="/Images/NoProfile.png" width="60">
+                        </a>
+                        <h5 class="card-title"> </h5>
+                        <div class="card-subheader">
+                            <h6 class="card-title">@dept.Name</h6>
+                            <p class="card-subtitle">
+                                &nbsp;
+                                <span>&nbsp;</span>
+                            </p><p>
+                            </p>
+                        </div>
+                        <div class="role-options">
+                            <a asp-controller="Departments" class="btn" asp-action="UpdateDepartment" asp-route-Id="@dept.Id"><i class="fa fa-edit"></i></a>
+
+                            <a asp-controller="Departments" class="btn" asp-action="DeleteDepartment" asp-route-Id="@dept.Id"><i class="fa fa-remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-footer user-card-border">
+                        <a title="View More" href="employee-detail.html" class="btn pmd-btn-flat pmd-ripple-effect btn-primary">View More</a>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+    </div>
+
+</div>

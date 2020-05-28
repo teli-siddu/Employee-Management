@@ -102,7 +102,15 @@
                     </a>
 
                 </li>
-                <li class="has-subnav">
+                <li>
+                    <a asp-controller="Employees" asp-action="Employees">
+                        <i class="fa fa-bar-chart-o fa-2x"></i>
+                        <span class="nav-text">
+                            Manage Employees
+                        </span>
+                    </a>
+                </li>
+                <li class="has-subnav" style="display:none">
                     <a asp-controller="Users" asp-action="GetUsers">
                         <i class="fa fa-user"></i>
                         <span class="nav-text">
@@ -121,22 +129,15 @@
 
                 </li>
                 <li class="has-subnav">
-                    <a href="#">
+                    <a asp-controller="Departments" asp-action="Departments">
                         <i class="fa fa-folder-open fa-2x"></i>
                         <span class="nav-text">
-                            Pages
+                            Manage Departments
                         </span>
                     </a>
 
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-bar-chart-o fa-2x"></i>
-                        <span class="nav-text">
-                            Graphs and Statistics
-                        </span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="#">
                         <i class="fa fa-font fa-2x"></i>

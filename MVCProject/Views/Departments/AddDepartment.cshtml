@@ -1,0 +1,50 @@
+﻿@model Entities.ViewModels.Departments.DepartmentViewModel
+
+
+<div class="department-container">
+
+    <div class="card Department-card">
+
+        <div class="card-body Department-card">
+            <div class="d-flex">
+                <h5 class="card-title register-card-titrle card-title-seperator">
+                    User Details
+                </h5>
+            </div>
+
+
+            <form method="post">
+
+                <input type="hidden" asp-for="Id" />
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group">
+
+                                <input type="text" class="form-control" asp-for="Name" placeholder="Department" />
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @if (Model?.Id == null)
+                        {
+                            <input type="submit" value="Add" class="btn btn-primary" asp-action="AddDepartment" asp-controller="Departments" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Update" class="btn btn-primary" asp-action="UpdateDepartment" asp-controller="Departments" />
+                        }
+
+
+                    </div>
+                     
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

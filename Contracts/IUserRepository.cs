@@ -10,36 +10,37 @@ namespace Contracts
 {
     public interface IUserRepository
     {
-        Task<User> Authenticate(string userName, string password);
-        public IEnumerable<User> GetAll();
+        //Task<User> Authenticate(string userName, string password);
+        //public IEnumerable<User> GetAll();
 
-        Task<IEnumerable<User>> GetAllUsersAsync();
-        Task<IdentityResult> AddUser(ApplicationUser user, string password);
+        //Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<IdentityResult> AddUser(Employee user, string password);
 
-        Task<ApplicationUser> GetUserByUserName(string username);
+        Task<Employee> GetUserByUserName(string username);
 
-        List<ApplicationUser> GetUsers();
+        Task<Employee> FindUserById(int userId);
+        List<Employee> GetUsers();
 
         Task<IEnumerable<string>> GetUsersByRoleName(string roleName);
-        Task<ApplicationUser> GetUserById(string userId);
+        Task<Employee> GetUserById(int userId);
 
-        Task<IdentityResult> DeleteUserById(string userId);
+        Task<IdentityResult> DeleteUserById(int userId);
 
-        Task<IdentityResult> AddRole(ApplicationUser user, string role);
+        Task<IdentityResult> AddRole(Employee user, string role);
 
         List<UserViewModel> GetUsersRoles();
 
-        Task<bool> CheckUserIsMemberofRole(ApplicationUser user, string roleName);
+        Task<bool> CheckUserIsMemberofRole(Employee user, string roleName);
 
-        Task<IdentityResult> RemoveUserRole(ApplicationUser user, string role);
+        Task<IdentityResult> RemoveUserRole(Employee user, string role);
 
         //Task<IdentityResult> EditUser(UserViewModel userView);
-        List<RoleViewModel> UserSelectedRoles(ApplicationUser user);
+        List<RoleViewModel> UserSelectedRoles(Employee user);
 
-        Task<IdentityResult> UpdateUser(ApplicationUser user);
-        Task<IEnumerable<string>> GetUserRoles(ApplicationUser user);
-        Task<IdentityResult> RemoveFromRoles(ApplicationUser user, IEnumerable<string> roles);
-        Task<IdentityResult> AddToRoles(ApplicationUser user, IEnumerable<string> roles);
+        Task<IdentityResult> UpdateUser(Employee user);
+        Task<IEnumerable<string>> GetUserRoles(Employee user);
+        Task<IdentityResult> RemoveFromRoles(Employee user, IEnumerable<string> roles);
+        Task<IdentityResult> AddToRoles(Employee user, IEnumerable<string> roles);
     }
         
 }

@@ -50,6 +50,7 @@ namespace Repository
         public void UpdateOwner(Owner owner)
         {
             Update(owner);
+            
         }
 
         public void DeleteOwner(Owner owner)

@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class AdminRepository :RepositoryBase<ApplicationUser> ,IAdminRepository
+    public class AdminRepository :RepositoryBase<Employee> ,IAdminRepository
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<Employee> _userManager;
         private readonly RepositoryContext _repositoryContext;
 
-        public AdminRepository(RoleManager<ApplicationRole> roleManager,UserManager<ApplicationUser> userManager,Entities.RepositoryContext repositoryContext):base(repositoryContext)
+        public AdminRepository(RoleManager<ApplicationRole> roleManager,UserManager<Employee> userManager,Entities.RepositoryContext repositoryContext):base(repositoryContext)
         {
             this._roleManager = roleManager;
             this._userManager = userManager;
@@ -52,12 +52,12 @@ namespace Repository
 
         public async Task<IEnumerable<string>> GetUsersByRoleName(string roleName)
         {
-             var applicationUsers = await _userManager.GetUsersInRoleAsync(roleName);
+             var Employees = await _userManager.GetUsersInRoleAsync(roleName);
 
-             return applicationUsers.Select(x => x.UserName);
+             return Employees.Select(x => x.UserName);
         }
 
-        public async Task<bool> CheckUserIsMemberofRole(ApplicationUser user,string roleName) 
+        public async Task<bool> CheckUserIsMemberofRole(Employee user,string roleName) 
         {
             return await _userManager.IsInRoleAsync(user, roleName);
         }
@@ -70,14 +70,14 @@ namespace Repository
 
         }
 
-        public List<ApplicationUser> GetUsers() 
+        public List<Employee> GetUsers() 
         {
             return _userManager.Users.ToList();
         }
 
        
 
-        public async Task<IdentityResult> AddRole(ApplicationUser user,string role) 
+        public async Task<IdentityResult> AddRole(Employee user,string role) 
         {
             IdentityResult result= await _userManager.AddToRoleAsync(user, role);
 
@@ -87,7 +87,7 @@ namespace Repository
         }
        
 
-        public async Task<ApplicationUser> GetUserByUserName(string username) 
+        public async Task<Employee> GetUserByUserName(string username) 
         {
             return await _userManager.FindByNameAsync(username);
         }
@@ -100,12 +100,12 @@ namespace Repository
 
         public async Task<IdentityResult> DeleteUserById(string userid) 
         {
-            ApplicationUser user = await _userManager.FindByIdAsync(userid);
+            Employee user = await _userManager.FindByIdAsync(userid);
             var result=  await _userManager.DeleteAsync(user);
             return result;
         }
 
-        public async Task<ApplicationUser> GetUserById(string userId) 
+        public async Task<Employee> GetUserById(string userId) 
         {
             return await _userManager.FindByIdAsync(userId);
         }
@@ -124,7 +124,7 @@ namespace Repository
 
         //public async Task<string> GetToken(string userName,string password) 
         //{
-        //   ApplicationUser usr  await  GetUserByUserName(userName);
+        //   Employee usr  await  GetUserByUserName(userName);
         //}
 
     }

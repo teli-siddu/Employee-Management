@@ -98,11 +98,11 @@ namespace APIProject.Controllers
 
 
         [HttpGet("DeleteRole/{id}")]
-        public async Task<IActionResult> DeleteRole(string id)
+        public async Task<IActionResult> DeleteRole(int id)
         {
             try
             {
-                IdentityRole role = await _rolesRepository.GetRoleById(id);
+                ApplicationRole role = await _rolesRepository.GetRoleById(id);
                 if (role is null)
                 {
                     return NotFound($"No user found with id {id}");
@@ -134,11 +134,11 @@ namespace APIProject.Controllers
         }
 
         [HttpGet("EditRole/{Id}")]
-        public async Task<IActionResult> EditRole(string Id)
+        public async Task<IActionResult> EditRole(int Id)
         {
             try
             {
-                IdentityRole role = await _rolesRepository.FindRoleById(Id);
+                ApplicationRole role = await _rolesRepository.FindRoleById(Id);
                 IEnumerable<string> users = await _userRepository.GetUsersByRoleName(role.Name);
 
                 CreateRoleViewModel roleVieModel = new CreateRoleViewModel

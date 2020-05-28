@@ -15,6 +15,12 @@
         border-radius: 25px;
     }
 
+    .action-buttons {
+        position: relative;
+        bottom: 4rem;
+        left: 5.6rem;
+    }
+
     .emp-btn-rnd:focus, .emp-btn-rnd:active {
         outline: none !important;
         box-shadow: none !important;
@@ -26,6 +32,10 @@
         min-width: 40px;
         border-radius: 50%;
         outline: none
+    }
+
+    .btn-rnd {
+        border-radius: 50%
     }
 
     .btn-outline-dark {
@@ -97,17 +107,40 @@
                 </div>*@
             <div class="card-body register-card-body">
 
-                <div class="d-flex" style="justify-content:space-between">
-                    <h5 class="card-title register-card-titrle card-title-seperator">
-                        User Details
-                    </h5>
 
-                    <a href="javascript:void(0)" class="btn emp-btn-rnd btn-outline-dark" id="edit_user_detail"> <i class="fa fa-pencil"></i></a>
-                </div>
 
 
                 <form asp-action="EditUser" asp-controller="Users" asp-route-Id="" method="post">
+                    <div class="profile-details">
+                        <div class="d-flex" style="justify-content:space-between">
+                            <h5 class="card-title register-card-titrle card-title-seperator">
+                                Profile
+                            </h5>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="file-input">
+
+                                    <img src="~/Images/NoProfile.png" />
+                                    <div class="action-buttons">
+                                        <span class="btn btn-primary btn-sm btn-rnd"><i class="fa fa-plus"></i></span>
+                                        <a class="btn btn-danger btn-rnd btn-sm"><i class="fa fa-remove"></i> </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="user-details">
+                        <div class="d-flex" style="justify-content:space-between">
+                            <h5 class="card-title register-card-titrle card-title-seperator">
+                                User Details
+                            </h5>
+
+                            <a href="javascript:void(0)" class="btn emp-btn-rnd btn-outline-dark" id="edit_user_detail"> <i class="fa fa-pencil"></i></a>
+                        </div>
                         <div class="row">
 
 
@@ -204,6 +237,23 @@
                                 </div>
                             </div>
 
+                            @*<div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-phone"></span>
+                                        </span>
+                                        <select asp-for="@Model.Department.Id" asp-items="@(new SelectList(Model.departments,"Id","Name",Model.Department.Id))" class="form-control"></select>
+
+                                    </div>
+
+                                </div>
+                                <div class="media-body">
+                                    <label class="pmd-list-subtitle">Department</label>
+                                    <p class="pmd-list-title">&nbsp;@Model.Department.Name</p>
+                                </div>
+                            </div>*@
+
 
 
 
@@ -230,13 +280,13 @@
                                 <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
                                 <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
                                 @*@if (@Model.Roles[i].IsSelected)
-            {
-                <div class="col-md-3">
-                    <div class="media-body">
-                        <p>@Model.Roles[i].RoleName</p>
-                    </div>
-                </div>
-            }*@
+                                    {
+                                        <div class="col-md-3">
+                                            <div class="media-body">
+                                                <p>@Model.Roles[i].RoleName</p>
+                                            </div>
+                                        </div>
+                                    }*@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="input-group">
@@ -280,35 +330,36 @@
                         </div>
 
 
-</form>
-                </div>
+
+
+                </form>
             </div>
-
-
         </div>
+
+
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <script>
-        $(function () {
-            $("#edit_user_detail").click(function () {
-                $(".form-group").show();
-                $(".media-body").hide();
-            })
-            $("#Cancle").click(function () {
-                $(".form-group").hide();
-                $(".media-body").show();
+<script>
+    $(function () {
+        $("#edit_user_detail").click(function () {
+            $(".form-group").show();
+            $(".media-body").hide();
+        })
+        $("#Cancle").click(function () {
+            $(".form-group").hide();
+            $(".media-body").show();
 
-            })
-           
         })
 
-        function reloadRoles()
-        {
+    })
 
-        }
+    function reloadRoles() {
 
-    </script>
+    }
+
+</script>
 
 
 

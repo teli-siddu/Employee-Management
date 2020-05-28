@@ -19,14 +19,12 @@ namespace Repository
         private IOptions<AppSettings> _appSettings;
 
 
-        private UserManager<ApplicationUser> _userManager;
-        public RepositoryWrapper(RepositoryContext repositoryContext,IOptions<AppSettings> appSettings,UserManager<ApplicationUser> userManager)
+        private UserManager<Employee> _userManager;
+        public RepositoryWrapper(RepositoryContext repositoryContext,IOptions<AppSettings> appSettings,UserManager<Employee> userManager)
         {
             _repositoryContext = repositoryContext;
             _appSettings = appSettings;
             _userManager = userManager;
-
-
         }
 
 

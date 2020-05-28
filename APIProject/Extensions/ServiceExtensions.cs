@@ -1,4 +1,5 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Entities;
 using Entities.HelperModels;
 using Entities.Models;
@@ -36,6 +37,11 @@ namespace APIProject.Extensions
             });
         }
 
+        public static void ConfigureAutoMapper(this IServiceCollection services) 
+        {
+            services.AddAutoMapper(typeof(Startup));
+        }
+
         public static void ConfigureIISIntegration(this IServiceCollection services)
         {
             services.Configure<IISOptions>(options =>
@@ -62,7 +68,12 @@ namespace APIProject.Extensions
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<IRolesRepository, RolesRepository>();
-
+            services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IDropdownsRepository, DropdownsRepository>();
+            services.AddScoped<ILeaveRepository, LeaveRepository>();
+            
+            //services.AddScoped<IMapper, Mapper>();
         }
 
         public static void ConfigureAppSettings(this IServiceCollection services,IConfiguration configuration) 
@@ -120,7 +131,7 @@ namespace APIProject.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services) 
         {
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            services.AddIdentity<Employee, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 2;
                 options.Password.RequireLowercase = false;

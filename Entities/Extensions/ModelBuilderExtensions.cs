@@ -40,8 +40,8 @@ namespace Entities.Extensions
                     DepartmentId=3,
                     FirstName = "Ra,jesh",
                     LastName = "K",
-                    Email = "Rajesh@gmail.com",
-                    FilePath = ""
+                    //Email = "Rajesh@gmail.com",
+                    //FilePath = ""
 
                 },
                 new Employee
@@ -50,8 +50,8 @@ namespace Entities.Extensions
                     DepartmentId = 2,
                     FirstName = "Akash",
                     LastName = "S",
-                    Email = "Akash@gmail.com",
-                    FilePath = ""
+                    //Email = "Akash@gmail.com",
+                    //FilePath = ""
 
                 },
                 new Employee
@@ -60,8 +60,8 @@ namespace Entities.Extensions
                     DepartmentId = 1,
                     FirstName = "Kiran",
                     LastName = "B",
-                    Email = "Kiran@gmail.com",
-                    FilePath = ""
+                    //Email = "Kiran@gmail.com",
+                    //FilePath = ""
 
                 }
                 );

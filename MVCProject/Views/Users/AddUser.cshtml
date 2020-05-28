@@ -1,5 +1,5 @@
 ﻿
-@model Entities.ViewModels.UserRegisterViewModel;
+@model Entities.ViewModels.Users.AddUserViewModel;
 
     <link href="~/css/Card.css" rel="stylesheet" />
 <style>
@@ -33,14 +33,7 @@
         /*background-image: repeating-linear-gradient(45deg, black, transparent 100px);*/
     }
 
-    .card-title-seperator-center:after, .card-title-seperator-right:after, .card-title-seperator:after {
-        content: "";
-        display: block;
-        width: 30px;
-        height: 4px;
-        border-radius: 3px;
-        background-color: #F58634;
-        margin: 1rem 0 1rem;
+   
 </style>
 
 
@@ -65,7 +58,9 @@
                     
                 </div>
 
-                <form asp-action="AddUser" asp-controller="Users" method="post">
+                <form  method="post">
+
+                    <input type="hidden" asp-for="UserId" />
                     <div class="row">
 
 
@@ -75,7 +70,7 @@
                                     <span class="input-group-addon">
                                         <span class="fa fa-user "></span>
                                     </span>
-                                    <input type="text" asp-for="Email" class="form-control" placeholder="User Name" />
+                                    <input type="text" asp-for="UserName" class="form-control" placeholder="User Name" />
                                 </div>
                             </div>
                         </div>
@@ -110,18 +105,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <span class="fa fa-city"></span>
-                                    </span>
-                                    <input type="text" asp-for="City" class="form-control" placeholder="City" />
-
-                                </div>
-
-                            </div>
-                        </div>
+                       
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div class="input-group">
@@ -140,30 +124,36 @@
                                     <span class="input-group-addon">
                                         <span class="fa fa-phone"></span>
                                     </span>
-                                    <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
+                                    <input type="text" asp-for="Mobiles[0].MobileNumber" class="form-control" placeholder="Phone Number" />
 
                                 </div>
 
                             </div>
                         </div>
-
-                        
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <span class="fa fa-lock"></span>
+                                        <span class=""></span>
                                     </span>
-                                    <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Password" />
+                                    @{
+                                            List<Entities.Helper.KeyValue<int, string>> departments = Model.departments;
+
+                                            departments.Add(new Entities.Helper.KeyValue<int, string>(0, "Select Department"));
+                                        <select class="form-control" asp-for="@Model.DepartmentId" asp-items="@(new SelectList(departments,"Key","Value"))">
+                                        </select>
+
+                                    }
+
 
                                 </div>
 
                             </div>
                         </div>
 
-                        <div class="col-md-3">
 
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">
@@ -175,7 +165,21 @@
 
                             </div>
                         </div>
-                  </div>
+
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-lock"></span>
+                                    </span>
+                                    <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                         <div class="roles-details" id="Roles_Details">
                             <div class="d-flex">
                                 <h5 class="card-title register-card-titrle card-title-seperator">
@@ -221,7 +225,15 @@
                             <div class="form-submit">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-success btn-sm">Register</button>
+                                        @if (Model.UserId == 0)
+                                        {
+                                            <button type="submit" class="btn btn-success btn-sm" asp-action="AddUser" asp-controller="Users">Register</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-success btn-sm" asp-action="EditUser" asp-controller="Users">Update</button>
+                                        }
+
                                     </div>
                                 </div>
 

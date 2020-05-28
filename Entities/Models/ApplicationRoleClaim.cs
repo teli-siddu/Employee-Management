@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class ApplicationRoleClaim:IdentityRoleClaim<string>
+    public class ApplicationRoleClaim:IdentityRoleClaim<int>
     {
         
         public virtual ApplicationRole Role { get; set; }

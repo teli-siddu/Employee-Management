@@ -1,9 +1,15 @@
-﻿select * from AspNetUsers
+﻿select * from employees
 
-select * from AspNetRoles
+select * from Addresses where Employee_Id=3030
 
-select * from AspNetUserRoles
-ad6f7ea8-dc1b-4ace-85b5-0c7e6a8e21e1
-ad6f7ea8-dc1b-4ace-85b5-0c7e6a8e21e1
+delete from Mobiles where Id <>2009
 
-select users.Id as userId,users.UserName,roles.Name from AspNetUsers users left join AspNetUserRoles user_role on user_role.UserId=users.Id Left Join  AspNetRoles roles on roles.Id=user_role.RoleId
+delete from Emails where Id<>2008
+
+delete from Addresses where Id<>3012
+select * from Mobiles
+select * from Emails
+
+select * from Addresses
+
+

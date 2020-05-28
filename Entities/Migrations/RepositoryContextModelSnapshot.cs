@@ -19,10 +19,70 @@ namespace Entities.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Entities.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AddressTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CityMasterId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CountryMasterId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Employee_UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LandMark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PermnentAddress")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("StateMasterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressTypeId");
+
+                    b.HasIndex("CityMasterId");
+
+                    b.HasIndex("CountryMasterId");
+
+                    b.HasIndex("Employee_UserId");
+
+                    b.HasIndex("StateMasterId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("Entities.Models.AddressType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AddressTypes");
+                });
+
             modelBuilder.Entity("Entities.Models.ApplicationRole", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -62,9 +122,8 @@ namespace Entities.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -75,166 +134,78 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateofBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                    b.HasIndex("DepartmentId");
 
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Entities.Models.ApplicationUserClaim", b =>
+            modelBuilder.Entity("Entities.Models.BankDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType")
+                    b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue")
+                    b.Property<string>("AccountType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("BankName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BranchName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("BankDetails");
                 });
 
-            modelBuilder.Entity("Entities.Models.ApplicationUserLogin", b =>
+            modelBuilder.Entity("Entities.Models.CityMaster", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
+                    b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("StateMasterId")
+                        .HasColumnType("int");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("StateMasterId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("CityMaster");
                 });
 
-            modelBuilder.Entity("Entities.Models.ApplicationUserRole", b =>
+            modelBuilder.Entity("Entities.Models.CountryMaster", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles");
-                });
-
-            modelBuilder.Entity("Entities.Models.ApplicationUserToken", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
+                    b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("Id");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("CountryMaster");
                 });
 
             modelBuilder.Entity("Entities.Models.Department", b =>
@@ -275,6 +246,26 @@ namespace Entities.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Email", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EmailId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Employee_UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Employee_UserId");
+
+                    b.ToTable("Emails");
+                });
+
             modelBuilder.Entity("Entities.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -282,55 +273,346 @@ namespace Entities.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BankDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DateofJoining")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Designation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FilePath")
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FK_Employee_Nationality")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FatherName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("MaritialStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NationalityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PassportNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
                     b.HasKey("Id");
+
+                    b.HasIndex("BankDetailsId");
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees");
+                    b.HasIndex("FK_Employee_Nationality");
+
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("MaritialStatusId");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "685a840a-e628-4489-b2f4-e3498a65cbdf",
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 3,
-                            Email = "Rajesh@gmail.com",
-                            FilePath = "",
+                            EmailConfirmed = false,
                             FirstName = "Ra,jesh",
-                            LastName = "K"
+                            IsActive = false,
+                            LastName = "K",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "494bfe00-5794-4f0d-824c-c0704c24231b",
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 2,
-                            Email = "Akash@gmail.com",
-                            FilePath = "",
+                            EmailConfirmed = false,
                             FirstName = "Akash",
-                            LastName = "S"
+                            IsActive = false,
+                            LastName = "S",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8cda3315-b898-4137-b335-05a399b1bdab",
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 1,
-                            Email = "Kiran@gmail.com",
-                            FilePath = "",
+                            EmailConfirmed = false,
                             FirstName = "Kiran",
-                            LastName = "B"
+                            IsActive = false,
+                            LastName = "B",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         });
+                });
+
+            modelBuilder.Entity("Entities.Models.EmployeeClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Entities.Models.EmployeeLogin", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Entities.Models.EmployeeRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Entities.Models.EmployeeToken", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Entities.Models.Gender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Gender");
+                });
+
+            modelBuilder.Entity("Entities.Models.Leave", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Employee_UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LeaveFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LeaveStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LeaveTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LeaveTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Employee_UserId");
+
+                    b.HasIndex("LeaveStatusId");
+
+                    b.HasIndex("LeaveTypeId");
+
+                    b.ToTable("Leaves");
+                });
+
+            modelBuilder.Entity("Entities.Models.LeaveStatusMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Name")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LeaveStatuses");
+                });
+
+            modelBuilder.Entity("Entities.Models.LeaveTypeMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NoOfLeaves")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LeaveTypes");
+                });
+
+            modelBuilder.Entity("Entities.Models.MaritialStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MaritialStatus");
                 });
 
             modelBuilder.Entity("Entities.Models.MenuItem", b =>
@@ -353,16 +635,121 @@ namespace Entities.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId1");
 
                     b.ToTable("MenuItems");
+                });
+
+            modelBuilder.Entity("Entities.Models.Mobile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Employee_UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MobileNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Employee_UserId");
+
+                    b.ToTable("Mobiles");
+                });
+
+            modelBuilder.Entity("Entities.Models.NationalityMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nationality")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NationalityMaster");
+                });
+
+            modelBuilder.Entity("Entities.Models.ProfilePicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Employee_UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Employee_UserId");
+
+                    b.ToTable("ProfilePictures");
+                });
+
+            modelBuilder.Entity("Entities.Models.StateMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CountryMasterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryMasterId");
+
+                    b.ToTable("StateMaster");
+                });
+
+            modelBuilder.Entity("Entities.Models.Address", b =>
+                {
+                    b.HasOne("Entities.Models.AddressType", "AddressType")
+                        .WithMany("Addresses")
+                        .HasForeignKey("AddressTypeId");
+
+                    b.HasOne("Entities.Models.CityMaster", "City")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CityMasterId");
+
+                    b.HasOne("Entities.Models.CountryMaster", "Country")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CountryMasterId");
+
+                    b.HasOne("Entities.Models.Employee", "Employee")
+                        .WithMany("Addresses")
+                        .HasForeignKey("Employee_UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Entities.Models.StateMaster", "State")
+                        .WithMany("Addresses")
+                        .HasForeignKey("StateMasterId");
                 });
 
             modelBuilder.Entity("Entities.Models.ApplicationRoleClaim", b =>
@@ -374,25 +761,71 @@ namespace Entities.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.ApplicationUserClaim", b =>
+            modelBuilder.Entity("Entities.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Entities.Models.ApplicationUser", null)
+                    b.HasOne("Entities.Models.Department", null)
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("DepartmentId");
+                });
+
+            modelBuilder.Entity("Entities.Models.CityMaster", b =>
+                {
+                    b.HasOne("Entities.Models.StateMaster", "State")
+                        .WithMany("Cities")
+                        .HasForeignKey("StateMasterId");
+                });
+
+            modelBuilder.Entity("Entities.Models.Email", b =>
+                {
+                    b.HasOne("Entities.Models.Employee", "Employee")
+                        .WithMany("Emails")
+                        .HasForeignKey("Employee_UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Models.Employee", b =>
+                {
+                    b.HasOne("Entities.Models.BankDetails", "BankDetails")
+                        .WithMany("Employees")
+                        .HasForeignKey("BankDetailsId");
+
+                    b.HasOne("Entities.Models.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("Entities.Models.NationalityMaster", "Nationality")
+                        .WithMany("employees")
+                        .HasForeignKey("FK_Employee_Nationality");
+
+                    b.HasOne("Entities.Models.Gender", "Gender")
+                        .WithMany("Employees")
+                        .HasForeignKey("GenderId");
+
+                    b.HasOne("Entities.Models.MaritialStatus", "MaritialStatus")
+                        .WithMany("Employees")
+                        .HasForeignKey("MaritialStatusId");
+                });
+
+            modelBuilder.Entity("Entities.Models.EmployeeClaim", b =>
+                {
+                    b.HasOne("Entities.Models.Employee", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.ApplicationUserLogin", b =>
+            modelBuilder.Entity("Entities.Models.EmployeeLogin", b =>
                 {
-                    b.HasOne("Entities.Models.ApplicationUser", null)
+                    b.HasOne("Entities.Models.Employee", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.ApplicationUserRole", b =>
+            modelBuilder.Entity("Entities.Models.EmployeeRole", b =>
                 {
                     b.HasOne("Entities.Models.ApplicationRole", "Role")
                         .WithMany("UserRoles")
@@ -400,34 +833,73 @@ namespace Entities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.ApplicationUser", "User")
+                    b.HasOne("Entities.Models.Employee", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.ApplicationUserToken", b =>
+            modelBuilder.Entity("Entities.Models.EmployeeToken", b =>
                 {
-                    b.HasOne("Entities.Models.ApplicationUser", null)
+                    b.HasOne("Entities.Models.Employee", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.Employee", b =>
+            modelBuilder.Entity("Entities.Models.Leave", b =>
                 {
-                    b.HasOne("Entities.Models.Department", "Department")
+                    b.HasOne("Entities.Models.Employee", "Employee")
+                        .WithMany("Leaves")
+                        .HasForeignKey("Employee_UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.LeaveStatusMaster", "LeaveStatus")
                         .WithMany()
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("LeaveStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.LeaveTypeMaster", "LeaveType")
+                        .WithMany("Leaves")
+                        .HasForeignKey("LeaveTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entities.Models.MenuItem", b =>
                 {
                     b.HasOne("Entities.Models.ApplicationRole", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId1");
+                });
+
+            modelBuilder.Entity("Entities.Models.Mobile", b =>
+                {
+                    b.HasOne("Entities.Models.Employee", "Employee")
+                        .WithMany("Mobiles")
+                        .HasForeignKey("Employee_UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Models.ProfilePicture", b =>
+                {
+                    b.HasOne("Entities.Models.Employee", "Employee")
+                        .WithMany("profilePictures")
+                        .HasForeignKey("Employee_UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Models.StateMaster", b =>
+                {
+                    b.HasOne("Entities.Models.CountryMaster", "Country")
+                        .WithMany("States")
+                        .HasForeignKey("CountryMasterId");
                 });
 #pragma warning restore 612, 618
         }

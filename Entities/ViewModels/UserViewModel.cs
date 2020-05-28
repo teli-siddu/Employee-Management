@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Entities.ViewModels.Departments;
+using Entities.ViewModels.Employee;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +9,7 @@ namespace Entities.ViewModels
    public class UserViewModel
     {
 
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public string UserName { get; set; }
 
         public string Email { get; set; }
@@ -24,9 +26,16 @@ namespace Entities.ViewModels
 
         public string LastName { get; set; }
 
+        public List<MobileViewModel> Mobiles { get; set; }
         public List<RoleViewModel> Roles { get; set; }
 
-        public string SelectedRole { get; set; }
+        public List<DepartmentViewModel> departments { get; set; }
+
+        public int DepartmentId { get; set; }
+
+      
+
+        public string RoleId { get; set; }
         public string Token { get; set; }
        
     }

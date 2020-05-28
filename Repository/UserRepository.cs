@@ -14,19 +14,20 @@ using System.Security.Claims;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Entities.ViewModels;
+using Entities.ViewModels.Employee;
 
 namespace Repository
 {
-    public class UserRepository :RepositoryBase<User>,IUserRepository
+    public class UserRepository :RepositoryBase<Employee>,IUserRepository
     {
 
         private AppSettings _appSettings;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<Employee> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<Employee> _signInManager;
 
         private readonly RepositoryContext _repositoryContext;
-        public UserRepository(RepositoryContext repositoryContext,IOptions<AppSettings> appSettings,UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager,RoleManager<ApplicationRole> roleManager)  : base(repositoryContext)
+        public UserRepository(RepositoryContext repositoryContext,IOptions<AppSettings> appSettings,UserManager<Employee> userManager,SignInManager<Employee> signInManager,RoleManager<ApplicationRole> roleManager)  : base(repositoryContext)
         {
             _appSettings = appSettings.Value;
             this._userManager = userManager;
@@ -40,51 +41,51 @@ namespace Repository
 
 
 
-        public async  Task<User> Authenticate(string userName, string password)
-        {
-            User user= await FindByCondition(x => x.Username == userName 
-                                            && x.Password == password)
-                                            .FirstOrDefaultAsync();
+        //public async  Task<User> Authenticate(string userName, string password)
+        //{
+        //    User user= await FindByCondition(x => x.Username == userName 
+        //                                    && x.Password == password)
+        //                                    .FirstOrDefaultAsync();
 
-            if (user == null) 
-            {
-                return null;
-            }
+        //    if (user == null) 
+        //    {
+        //        return null;
+        //    }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-              {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-              }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
-            user.Password = null;
-            return user;
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new ClaimsIdentity(new Claim[]
+        //      {
+        //            new Claim(ClaimTypes.Name, user.Id.ToString())
+        //      }),
+        //        Expires = DateTime.UtcNow.AddDays(7),
+        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //    };
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+        //    user.Token = tokenHandler.WriteToken(token);
+        //    user.Password = null;
+        //    return user;
 
-        }
+        //}
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync() 
-        {
-            return await FindAll().Select(x => new User()
-            {
-                FirstName = x.FirstName
-            }).ToListAsync();
+        //public async Task<IEnumerable<User>> GetAllUsersAsync() 
+        //{
+        //    return await FindAll().Select(x => new User()
+        //    {
+        //        FirstName = x.FirstName
+        //    }).ToListAsync();
                         
-        }
+        //}
 
         public IEnumerable<User> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IdentityResult> Register(ApplicationUser user,string password)
+        public async Task<IdentityResult> Register(Employee user,string password)
         {
             try
             {
@@ -104,7 +105,7 @@ namespace Repository
 
         }
 
-        public async Task<IdentityResult> AddUser(ApplicationUser user, string password)
+        public async Task<IdentityResult> AddUser(Employee user, string password)
         {
             try
             {
@@ -122,33 +123,69 @@ namespace Repository
             }
         }
 
-        public List<ApplicationUser> GetUsers()
+        public List<Employee> GetUsers()
         {
             return _userManager.Users.OrderBy(x=>x.UserName).ToList();
         }
 
         public async Task<IEnumerable<string>> GetUsersByRoleName(string roleName)
         {
-            var applicationUsers = await _userManager.GetUsersInRoleAsync(roleName);
+            var Employees = await _userManager.GetUsersInRoleAsync(roleName);
 
-            return applicationUsers.Select(x => x.UserName);
+            return Employees.Select(x => x.UserName);
         }
 
-        public async Task<ApplicationUser> GetUserById(string userId)
+
+        public async Task<Employee> GetUserById(int userId)
         {
-            return await _userManager.FindByIdAsync(userId);
+            //return await FindByCondition(x => x.Id == userId).FirstOrDefaultAsync();
+            try
+            {
+
+
+
+            
+
+               var xx= RepositoryContext.Employees.Include(x=>x.Department). Where(x => x.Id == userId).Select(x=>new Employee() 
+               {
+                   //City=x.City,
+                   Department=x.Department,
+                   DateOfBirth=x.DateOfBirth,
+                   FirstName=x.FirstName,
+                   Email=x.Email,
+                   IsActive=x.IsActive,
+                   LastName=x.LastName,
+                   PhoneNumber=x.PhoneNumber,
+                   UserName=x.UserName,
+                   UserRoles=x.UserRoles,
+                   RefreshToken=x.RefreshToken,
+                   
+               }).FirstOrDefault();
+                var z = _userManager.FindByIdAsync(userId.ToString()).Result;
+                return await _userManager.FindByIdAsync(userId.ToString());
+            }
+            catch (Exception x) 
+            {
+                return null;
+            }
+     
         }
 
-        public async Task<IdentityResult> DeleteUserById(string userId)
+        public async Task<Employee> FindUserById(int userId) 
         {
-            ApplicationUser user = await _userManager.FindByIdAsync(userId);
+            return await _userManager.FindByIdAsync(userId.ToString());
+        }
+        public async Task<IdentityResult> DeleteUserById(int userId)
+        {
+            Employee user = await _userManager.FindByIdAsync(userId.ToString());
             var result = await _userManager.DeleteAsync(user);
             return result;
         }
 
-        public async Task<ApplicationUser> GetUserByUserName(string username)
+        public async Task<Employee> GetUserByUserName(string username)
         {
             return await _userManager.FindByNameAsync(username);
+            
         }
 
         
@@ -156,28 +193,66 @@ namespace Repository
         public List<UserViewModel> GetUsersRoles()
         {
           
-            IQueryable<ApplicationUser> users = _repositoryContext.Users;
-            IQueryable<ApplicationRole> roles = _repositoryContext.Roles;
-            IQueryable<ApplicationUserRole> userRoles = _repositoryContext.UserRoles;
+            //IQueryable<Employee> users = _repositoryContext
+            //                            .Employees
+            //                            .Where(employee=>employee.UserRoles.Any(roles=>roles.Role.Name.ToLower()=="user"));
+            //IQueryable<ApplicationRole> roles = _repositoryContext.Roles;
+            //IQueryable<EmployeeRole> userRoles = _repositoryContext.UserRoles;
 
 
-            var users1 = users.Select(x => new UserViewModel()
-            {
-                Roles = x.UserRoles.Select(x => new RoleViewModel { RoleName = x.Role.Name, RoleId = x.RoleId }).ToList(),
-                UserName = x.UserName,
-                UserId = x.Id,
-                City = x.City,
-                Name = x.FirstName,
-                Email = x.Email,
-                PhoneNumber = x.PhoneNumber,
-                DateOfBirth = x.DateofBirth
 
-            }).ToList();
+            var users1=  FindAll().Include(x => x.UserRoles)
+                //.Where(emp => emp.UserRoles.Any(role => role.Role.NormalizedName == "USER"))
+                .Select(x => new UserViewModel
+                            {
+                                UserName = x.UserName,
+                                UserId = x.Id,
+                                //City = x.City,
+                                Name = x.FirstName,
+                                Email = x.Email,
+                                PhoneNumber = x.PhoneNumber,
+                                Mobiles=x.Mobiles.Select(x=>new MobileViewModel 
+                                {
+                                    MobileNumber=x.MobileNumber
+                                }).ToList(),
+                                DateOfBirth = x.DateOfBirth,
+                                Roles=x.UserRoles.Select(x=>new RoleViewModel 
+                                {
+                                    RoleId=x.RoleId,
+                                    RoleName=x.Role.Name
+                                }).ToList()
+
+                            }
+                ).ToList();
+
+            //var users1 = users
+            //    .Where(x=>x.UserRoles.Any(x=>x.Role.Name.ToLower()=="user"))
+            //    .Select(x => new UserViewModel()
+            //    {
+            //        Roles = x.UserRoles
+            //                    .Select(x => new RoleViewModel 
+            //                                         {
+            //                                            RoleName = x.Role.Name, RoleId = x.RoleId 
+            //                                          })
+            //                    .ToList(),
+            //        UserName = x.UserName,
+            //        UserId = x.Id,
+            //        //City = x.City,
+            //        Name = x.FirstName,
+            //        Email = x.Email,
+            //        PhoneNumber = x.PhoneNumber,
+            //        DateOfBirth = x.DateOfBirth,
+            //        //Department=new DepartmentViewModel 
+            //        //{
+            //        //    Id=x.Department.Id,
+            //        //    Name=x.Department.Name
+            //        //} 
+            //    }).ToList();
 
             return users1;
         }
 
-        public async Task<IdentityResult> AddRole(ApplicationUser user, string role)
+        public async Task<IdentityResult> AddRole(Employee user, string role)
         {
             IdentityResult result = await _userManager.AddToRoleAsync(user, role);
             
@@ -186,27 +261,27 @@ namespace Repository
 
 
         }
-        public async Task<IdentityResult> AddRoles(ApplicationUser user,string[] roles) 
+        public async Task<IdentityResult> AddRoles(Employee user,string[] roles) 
         {
             return await _userManager.AddToRolesAsync(user, roles);
         }
 
-        public async Task<bool> CheckUserIsMemberofRole(ApplicationUser user, string roleName)
+        public async Task<bool> CheckUserIsMemberofRole(Employee user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
         }
 
-        public async Task<IdentityResult> RemoveUserRole(ApplicationUser user, string role)
+        public async Task<IdentityResult> RemoveUserRole(Employee user, string role)
         {
 
             return await _userManager.RemoveFromRoleAsync(user, role);
         }
 
-        public  List<RoleViewModel> UserSelectedRoles(ApplicationUser user) 
+        public  List<RoleViewModel> UserSelectedRoles(Employee user) 
         {
             var roles =  _userManager.GetRolesAsync(user).Result;
            List<ApplicationRole> allRoles=  _repositoryContext.Roles.ToList();
-          List<RoleViewModel> roleView= allRoles.Select(x => new RoleViewModel()
+           List<RoleViewModel> roleView= allRoles.Select(x => new RoleViewModel()
             {
                 RoleId = x.Id,
                 RoleName = x.Name,
@@ -217,21 +292,21 @@ namespace Repository
         }
 
 
-        public async Task<IdentityResult> UpdateUser(ApplicationUser user) 
+        public async Task<IdentityResult> UpdateUser(Employee user) 
         {
             return await _userManager.UpdateAsync(user);
         }
 
-        public async Task<IEnumerable<string>> GetUserRoles(ApplicationUser user) 
+        public async Task<IEnumerable<string>> GetUserRoles(Employee user) 
         {
            return await  _userManager.GetRolesAsync(user);
         }
 
-        public async Task<IdentityResult> RemoveFromRoles(ApplicationUser user, IEnumerable<string> roles) 
+        public async Task<IdentityResult> RemoveFromRoles(Employee user, IEnumerable<string> roles) 
         {
              return await _userManager.RemoveFromRolesAsync(user,roles);
         }
-        public async Task<IdentityResult> AddToRoles(ApplicationUser user, IEnumerable<string> roles)
+        public async Task<IdentityResult> AddToRoles(Employee user, IEnumerable<string> roles)
         {
             return await _userManager.AddToRolesAsync(user, roles);
         }

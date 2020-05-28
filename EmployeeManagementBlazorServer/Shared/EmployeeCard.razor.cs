@@ -8,6 +8,6 @@ namespace EmployeeManagementBlazorServer.Shared
 {
     public partial class EmployeeCard
     {
-        private ApplicationUser applicationUser;
+        private Employee applicationUser;
     }
 }

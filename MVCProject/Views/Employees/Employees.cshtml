@@ -1,0 +1,314 @@
+﻿
+@model List<Entities.ViewModels.Employee.EmployeeViewModel>
+
+<link href="~/css/Card.css" rel="stylesheet" />
+<style>
+
+    .card-subtitle {
+        font-size: 13px;
+        font-weight: 500;
+        color: #adb5bd;
+    }
+
+    .employee-card {
+        border: 1px solid #3333;
+        height: 200px;
+        box-shadow: 0px 0px 2px 0px #3333;
+        padding: 5px;
+    }
+
+    .employees-container {
+        margin: 10px;
+    }
+
+
+    .pmd-card .card-header.pmd-card-border {
+        border-bottom: 1px solid rgba(23,31,35,.12);
+        padding-bottom: 1.25rem;
+        margin-bottom: 0;
+    }
+
+    .pmd-card-border {
+        box-shadow: 0 2px 4px 0 rgba(23,31,35,.06);
+        border-bottom: none !important;
+        border-radius: 2px;
+        position: relative;
+    }
+
+
+    .pmd-card .card-header.pmd-card-border {
+        /* border-bottom: 1px solid rgba(23,31,35,.12); */
+        /* padding-bottom: 1.25rem; */
+        /* margin-bottom: 0; */
+    }
+
+    .info-card .pmd-card-border {
+        box-shadow: 0 2px 4px 0 rgba(23,31,35,.06);
+        border-bottom: none !important;
+        border-radius: 2px;
+        position: relative;
+    }
+
+
+    /* Style the side navigation */
+    .sidenav {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        min-width: 260px;
+        width: 260px;
+        -ms-transform: translate3d(0,0,0);
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        -moz-box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);
+        -webkit-box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    }
+
+    /*sidebar-wrapper*/
+
+    /* Style the content */
+
+</style>
+<style>
+
+    /*card*/
+
+    .list-employee-details {
+        position: relative;
+        display: block;
+        padding: 0px 15px;
+        margin-bottom: -1px;
+        background-color: #fff;
+        /* border: 1px solid #ddd; */
+    }
+
+        .list-employee-details label {
+            margin: 0px;
+        }
+
+
+
+        .list-employee-details .fa-calendar, .list-employee-details .fa-calendar-week, .list-employee-details .fa-file, .list-employee-details .glyphicon-cd, .list-employee-details .glyphicon-calendar, .list-employee-details .glyphicon-list-alt {
+            font-size: 30px !important;
+            color: #3333 !important;
+            margin-right: 3rem !important;
+        }
+
+    .list-employee-details {
+        display: flex;
+    }
+</style>
+<style>
+
+
+    .employee-actions {
+        background: white;
+        position: absolute;
+        z-index: 1;
+        top: 10%;
+        left: 40%;
+        border: 1px solid #3333;
+        transition: all .2s ease-in-out;
+    }
+
+        .employee-actions .employee-action-list-group {
+            list-style: none;
+            padding: 0px;
+        }
+
+        .employee-actions .employee-action-list {
+            padding: .5rem 1rem;
+        }
+
+    a.employee-action-link {
+        /* width: 100%; */
+        text-decoration: none;
+    }
+
+        a.employee-action-link > .glyphicon {
+            font-size: 20px !important;
+            color: #3333 !important;
+            margin-right: 2rem !important;
+        }
+
+    .navigation-otions {
+        margin: 10px 0px;
+    }
+</style>
+
+
+
+
+
+<div class="component-section section" id="employee_List_Section">
+    <div class="card">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="navigation-otions" style="margin-bottom:30px">
+                    <a class="btn" asp-controller="Employees" asp-action="AddEmployee">
+                        <i class="fa fa-plus-circle"></i>
+                        <span class="nav-text">
+                            Add Employee
+                        </span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="tab-content">
+            <!-- Grid View -->
+            <div class="" id="">
+                <div class="row">
+
+
+                    @foreach (var employee in Model)
+                    {
+                        <div class="col-md-4 col-xl-4 col-12">
+                            <!-- Card Component -->
+                            <div class="card info-card">
+                                <!-- Card Header -->
+                                <div class="header d-flex card-header">
+                                    <a class="employee-type-image" href="javascript:void(0);">
+                                        <img src="~/Images/NoProfile.png" width="60" />
+                                        @*<i class="fa fa-file-pdf-o" style="font-size: 60px; color: red;"></i>*@
+                                    </a>
+                                    <div class="card-subheader">
+                                        <h6 class="employee-card-title">@employee.FirstName</h6>
+                                        <p class="card-subtitle">
+
+                                            @employee.Designation
+                                        <p>
+                                    </div>
+                                    <div class="employee-short-options">
+                                        <a class="btn" asp-action="EditEmployee" asp-controller="Employees" asp-route-Id="@employee.Id"><i class="fa fa-pencil" style="font-size:20px;color:#adb5bd"></i></a>
+                                        <a class="btn" asp-action="DeleteEmployee" asp-controller="Employees" asp-route-Id="@employee.Id"><i class="fa fa-trash" style="font-size:20px;color:#adb5bd"></i></a>
+                                    </div>
+                                    <div class="employee-options">
+
+                                    </div>
+                                </div>
+                                <div class="employee-actions" style="display:none">
+                                    <ul class="employee-action-list-group">
+                                        <li class="employee-action-list"><a class="employee-action-link" asp-action="EditEmployee" asp-controller="Employees" asp-route-Id="@employee.Id"><span class="glyphicon glyphicon-eye-open"></span>Edit Employee</a></li>
+                                        <li class="employee-action-list"><a class="employee-action-link" asp-action="EditEmployee" asp-controller="Employee" asp-route-Id=""><span class="glyphicon glyphicon-eye-open"></span>Edit Employee</a></li>
+                                        <li class="employee-action-list"><a class="employee-action-link" href="#"><span class="glyphicon glyphicon-export"></span>Upload New Version</a></li>
+                                        <li class="employee-action-list"><a class="employee-action-link" href="#"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
+                                        <li class="employee-action-list"><a class="employee-action-link" href="#"><span class="glyphicon glyphicon-random"></span>Convert to PDF</a></li>
+                                        <li class="employee-action-list"><a class="employee-action-link" href="#"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+
+                                    </ul>
+                                </div>
+
+                                <!-- List Group Component -->
+                                <ul class="list-group card-body card-body">
+                                    <li class="list-employee-details">
+                                        @*<i class="fa fa-file" aria-hidden="true"></i>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle">Employee Id</label>
+                                            <p class="pmd-list-title">@employee.EmployeeId&nbsp;</p>
+                                        </div>
+                                    </li>
+                                    <li class="list-employee-details">
+                                        @*<span class="glyphicon glyphicon-cd"></span>*@
+                                        @*<i class="fa glyphicon-cd" aria-hidden="true"></i>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle mb-0">Phone</label>
+                                            <p class="pmd-list-title">
+                                                @(employee.Mobiles.Count > 0? employee.Mobiles[0].MobileNumber:"&nbsp")
+                                            </p>
+                                                
+
+                                        </div>
+                                    </li>
+                                    <li class="list-employee-details">
+                                        @*<span class="glyphicon glyphicon-calendar"></span>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle">Date of Joining</label>
+                                            <p class="pmd-list-title">
+                                                @employee.DateofJoining &nbsp;
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="list-employee-details">
+
+                                        @*<span class="glyphicon glyphicon-list-alt"></span>*@
+                                        <div class="media-body">
+                                            <label class="pmd-list-subtitle">Date of Birth</label>
+                                            <p class="pmd-list-title">@employee.DateOfBirth.ToString("dd-MMM-yyyy")&nbsp;</p>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                                <!-- List Group Component End -->
+                                <!-- Card Footer -->
+                                <div class="card-footer employee-card-border">
+                                    <a title="View More" asp-action="EmployeeDetails" asp-controller="Employees" asp-route-id="@employee.Id" class="btn pmd-btn-flat pmd-ripple-effect btn-primary">View More</a>
+                                </div>
+                            </div>
+                            <!-- Card Component End -->
+                        </div>
+                    }
+
+
+
+
+                </div>
+            </div>
+            <!-- Grid View End -->
+            <!-- List View Start -->
+            <!-- List View End -->
+        </div>
+    </div>
+
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    $(function () {
+        $(".employee-options").click(function () {
+            if ($(this).parent().next(".employee-actions").is(":visible")) {
+                $(this).parent().next(".employee-actions").hide();
+            }
+            else {
+                $(this).parent().next(".employee-actions").show();
+            }
+
+        })
+        $(".nav-item").click(function () {
+            $(".section").hide();
+            //if ($("#" + $(this).attr("targetid")).is(":visible")) {
+            //    $("#" + $(this).attr("targetid")).hide();
+            //}
+            //else
+            //{
+            $("#" + $(this).attr("targetid")).show();
+            // }
+            //alert( $(this).attr("targetid"))
+        })
+    })
+    function Show_Hide(e) {
+        //alert($(e).attr("class"));
+        //$(".section").hide();
+        //if (($(e).is(":visible"))) {
+        //    $("#" + $(e).attr("targetid")).hide();
+        //}
+        //else
+        //{
+        //    $("#" + $(e).attr("targetid")).show();
+        //}
+
+
+    }
+</script>
+
+
+
+

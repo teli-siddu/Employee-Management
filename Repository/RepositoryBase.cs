@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -39,6 +40,11 @@ namespace Repository
         public void Update(T entity)
         {
             this.RepositoryContext.Set<T>().Update(entity);
+        }
+
+        public async Task SaveChangesAsync() 
+        {
+            await RepositoryContext.SaveChangesAsync();
         }
     }
 }

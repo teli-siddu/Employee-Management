@@ -33,9 +33,9 @@ namespace Repository
            
         }
 
-        public async Task<IdentityResult> DeleteRoleById(string roleId)
+        public async Task<IdentityResult> DeleteRoleById(int roleId)
         {
-            ApplicationRole role = await _roleManager.FindByIdAsync(roleId);
+            ApplicationRole role = await _roleManager.FindByIdAsync(roleId.ToString());
             return await _roleManager.DeleteAsync(role);
         }
 
@@ -44,14 +44,14 @@ namespace Repository
             return await _roleManager.UpdateAsync(role);
         }
 
-        public async Task<ApplicationRole> FindRoleById(string id)
+        public async Task<ApplicationRole> FindRoleById(int id)
         {
-            return await _roleManager.FindByIdAsync(id);
+            return await _roleManager.FindByIdAsync(id.ToString());
         }
 
-        public async Task<ApplicationRole> GetRoleById(string roleId)
+        public async Task<ApplicationRole> GetRoleById(int roleId)
         {
-            return await _roleManager.FindByIdAsync(roleId);
+            return await _roleManager.FindByIdAsync(roleId.ToString());
         }
 
         public async  Task<List<RoleViewModel>> GetRoles()

@@ -69,7 +69,7 @@ namespace MVCProject.Controllers
             var jsonResult = response.Content.ReadAsStringAsync().Result;
 
             var jsonResonse = JsonConvert.DeserializeObject(jsonResult);
-            return RedirectToAction("Roles");
+            return RedirectToAction("GetRoles");
 
         }
 

@@ -187,6 +187,10 @@
                                             }
                                         <p>
                                     </div>
+                                    <div class="user-short-options">
+                                        <a class="btn" asp-action="EditUser" asp-controller="Users" asp-route-Id="@user.UserId"><i class="fa fa-pencil" style="font-size:20px;color:#adb5bd"></i></a>
+                                        <a class="btn" asp-action="DeleteUser" asp-controller="Users" asp-route-Id="@user.UserId"><i class="fa fa-trash"  style="font-size:20px;color:#adb5bd"></i></a>
+                                    </div>
                                     <div class="user-options">
 
                                     </div>
@@ -217,7 +221,7 @@
                                         @*<i class="fa glyphicon-cd" aria-hidden="true"></i>*@
                                         <div class="media-body">
                                             <label class="pmd-list-subtitle mb-0">Phone</label>
-                                            <p class="pmd-list-title">@user.PhoneNumber&nbsp;</p>
+                                            <p class="pmd-list-title">@user.Mobiles[0]?.MobileNumber&nbsp;</p>
                                         </div>
                                     </li>
                                     <li class="list-user-details">

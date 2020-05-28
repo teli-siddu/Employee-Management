@@ -10,8 +10,8 @@ namespace Contracts
 {
     public interface IAccountRepository 
     {
-        Task<IdentityUser> Register(ApplicationUser user);
-        Task<IdentityUser> Login(ApplicationUser user);
+        Task<IdentityUser> Register(Employee user);
+        Task<IdentityUser> Login(Employee user);
         Task SignOut();
         Task<SignInResult> SignIn(string userName, string password, bool rememberMe);
         Task<AccessTokenViewModel> GetSecurityToken(string userName, string password);

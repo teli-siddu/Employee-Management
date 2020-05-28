@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APIProject.Extensions;
+using APIProject.MappingConfigurations;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +38,8 @@ namespace APIProject
             services.ConfigureIdentity();
             services.ConfigureJWTAuthentication(Configuration);
             
+          
+            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile));
             services.ConfigureApplicationCookie();
  //           services.AddControllers(options=> 
  //           {
@@ -62,6 +66,8 @@ namespace APIProject
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 

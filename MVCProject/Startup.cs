@@ -27,6 +27,7 @@ namespace MVCProject
         {
             services.ConfigureHttpClients();
             services.ConfigureSession();
+            services.ConfigureCors();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
         }
@@ -45,7 +46,8 @@ namespace MVCProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseStatusCodePagesWithReExecute("/Errors/Error{0}.html");
+            app.UseStatusCodePagesWithRedirects("/Errors/Error{0}.html");
+           
 
             
 
@@ -54,6 +56,7 @@ namespace MVCProject
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
 
             app.UseSession();

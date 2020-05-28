@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 //using APIProject.Models;
 using Contracts;
 using Entities.Helper;
 using Entities.HelperModels;
 using Entities.Models;
 using Entities.ViewModels;
+using Entities.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -24,38 +26,45 @@ namespace APIProject.Controllers
     {
         private IUserRepository _userRepository;
         private readonly IRolesRepository _rolesRepository;
+        private readonly IDepartmentsRepository _departmentsRepository;
+        private readonly IMapper _mapper;
+        //private readonly IDropdownsRepository _dropdownsRepository;
         private AppSettings _appSettings;
 
-        public UsersController(IUserRepository userRepository, IOptions<AppSettings> appSettings, IRolesRepository rolesRepository)
+
+        public UsersController(IUserRepository userRepository, IOptions<AppSettings> appSettings, IRolesRepository rolesRepository,IDepartmentsRepository departmentsRepository,IMapper mapper )
         {
             //_repositoryWrapper = repositoryWrapper;
             _userRepository = userRepository;
             this._rolesRepository = rolesRepository;
+            this._departmentsRepository = departmentsRepository;
+            this._mapper = mapper;
+            //this._dropdownsRepository = dropdownsRepository;
             _appSettings = appSettings.Value;
 
-        }
+       }
 
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
-        {
-            var user = await _userRepository.Authenticate(model.UserName, model.Password);
+        //[AllowAnonymous]
+        //[HttpPost("authenticate")]
+        //public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
+        //{
+        //    var user = await _userRepository.Authenticate(model.UserName, model.Password);
 
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+        //    if (user == null)
+        //        return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(user);
-        }
+        //    return Ok(user);
+        //}
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var users = _userRepository.GetAll();
-            return Ok(users);
-        }
+        //[HttpGet]
+        //public IActionResult GetAll()
+       
+        //    var users = _userRepository.GetAll();
+        //    return Ok(users);
+        //}
 
         [HttpPost("AddUser")]
-        public async Task<IActionResult> AddUser(UserRegisterViewModel user)
+        public async Task<IActionResult> AddUser(AddUserViewModel addUserView)
         {
             try
             {
@@ -65,21 +74,24 @@ namespace APIProject.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var applicationUser = new ApplicationUser
-                {
-                    Email = user.Email,
-                    UserName = user.Email,
-                    City = user.City,
-                    DateofBirth = user.DateOfBirth,
-                    PhoneNumber = user.PhoneNumber,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName
 
-                };
-                IdentityResult result = await _userRepository.AddUser(applicationUser, user.Password);
+                Employee user= _mapper.Map<Employee>(addUserView);
+                //var applicationUser = new Employee
+                //{
+                //    Email = user.Email,
+                //    UserName = user.Email,
+                //    //City = user.City,
+                //    DateOfBirth = user.DateOfBirth,
+                //    PhoneNumber = user.PhoneNumber,
+                //    FirstName = user.FirstName,
+                //    LastName = user.LastName,
+                //    DepartmentId= Convert.ToInt32( user.DepartmentId)
+
+                //};
+                IdentityResult result = await _userRepository.AddUser(user, addUserView.Password);
                 if (result.Succeeded) 
                 {
-                     result = await _userRepository.AddToRoles(applicationUser,user.Roles.Where(x=>x.IsSelected).Select(x=>x.RoleName));
+                     result = await _userRepository.AddToRoles(user, addUserView.Roles.Where(x=>x.IsSelected).Select(x=>x.RoleName));
                 }
              
                 return Ok(result);
@@ -91,12 +103,12 @@ namespace APIProject.Controllers
             }
         }
 
-        [HttpPost("DeleteUser")]
-        public async Task<IActionResult> DeleteUser(string id)
+        [HttpGet("DeleteUser/{Id}")]
+        public async Task<IActionResult> DeleteUser(int id)
         {
             try
             {
-                ApplicationUser applicationUser = await _userRepository.GetUserById(id);
+                Employee applicationUser = await _userRepository.GetUserById(id);
 
                 if (applicationUser is null)
 
@@ -169,9 +181,13 @@ namespace APIProject.Controllers
                 foreach (var user in RoleVieModel.Users)
                 {
                     IdentityResult identityResult = null;
+                    if (user.UserName == null) 
+                    {
+                        continue;
+                    }
                     try
                     {
-                        ApplicationUser applicationUser = await _userRepository.GetUserByUserName(user.UserName);
+                        Employee applicationUser = await _userRepository.GetUserByUserName(user.UserName);
 
 
 
@@ -212,7 +228,7 @@ namespace APIProject.Controllers
         }
 
         [HttpGet("EditUsersInRole/{Id}")]
-        public async Task<IActionResult> EditUsersInRole(string Id)
+        public async Task<IActionResult> EditUsersInRole(int Id)
         {
             try
             {
@@ -268,41 +284,56 @@ namespace APIProject.Controllers
 
 
         [HttpGet("EditUser/{Id}")]
-        public async Task<IActionResult> EditUser(string Id)
+        public async Task<IActionResult> EditUser(int Id)
         {
-            ApplicationUser user = await _userRepository.GetUserById(Id);
-            List<RoleViewModel> roles = _userRepository.UserSelectedRoles(user);
-
-            UserViewModel viewModel = new UserViewModel()
+            try
             {
-                City = user.City,
-                DateOfBirth = user.DateofBirth,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Roles = roles,
-                UserName=user.UserName,
-                PhoneNumber=user.PhoneNumber,
-               
-            };
-            return Ok(viewModel);
+                Employee user = await _userRepository.GetUserById(Id);
+                List<RoleViewModel> roles = _userRepository.UserSelectedRoles(user);
+                List<KeyValue<int,string>> departments = await _departmentsRepository.GetDepartments();
 
+                AddUserViewModel viewModel = new AddUserViewModel()
+                {
+                    //City = user.City,
+                    UserId=user.Id,
+                    DateOfBirth = user.DateOfBirth,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Roles = roles,
+                    UserName = user.UserName,
+                    PhoneNumber = user.PhoneNumber,
+                    departments = departments,
+                    DepartmentId=user.Department.Id
+                   
+
+                };
+                return Ok(viewModel);
+
+            }
+            catch (Exception x) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+           
         }
         [HttpPost("EditUser")]
-        public async Task<IActionResult> EditUser(UserViewModel userView)
+        public async Task<IActionResult> EditUser(AddUserViewModel userView)
         {
             ApiResponse response;
             try
             {
-                ApplicationUser user = _userRepository.GetUserByUserName(userView.UserName).Result;
+                Employee user = _userRepository.FindUserById(userView.UserId).Result;
 
-                user.FirstName = userView.FirstName;
-                user.LastName = userView.LastName;
-                user.City = userView.City;
-                user.Email = userView.Email;
-                user.DateofBirth = userView.DateOfBirth;
-                user.UserName = userView.UserName;
-                user.PhoneNumber = userView.PhoneNumber;
+                //user.FirstName = userView.FirstName;
+                //user.LastName = userView.LastName;
+                ////user.City = userView.City;
+                //user.Email = userView.Email;
+                //user.DateOfBirth = userView.DateOfBirth;
+                //user.UserName = userView.UserName;
+                //user.PhoneNumber = userView.PhoneNumber;
+                //user.DepartmentId = userView.DepartmentId;
+                  _mapper.Map(userView, user);
 
                 IdentityResult result = await _userRepository.UpdateUser(user);
                 if (result.Succeeded) 

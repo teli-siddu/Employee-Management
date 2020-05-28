@@ -7,7 +7,7 @@ namespace Entities.ViewModels
 {
     public class EditRoleVieModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string RoleName { get; set; }
        
         public List<RoleUsersViewModel> Users { get; set; }

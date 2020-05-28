@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class ApplicationRole : IdentityRole
+    public class ApplicationRole : IdentityRole<int>
     {
-        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
+        public virtual ICollection<EmployeeRole> UserRoles { get; set; }
         public virtual ICollection<ApplicationRoleClaim> RoleClaims { get; set; }
 
         //public virtual ICollection<RoleMenu> RoleMenus { get; set; }
