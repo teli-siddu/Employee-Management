@@ -1,0 +1,21 @@
+﻿@page "/Departments/Departments"
+
+    <div class="component-section section" id="roles_List_Section">
+        <div class="navigation-options" style=" margin-bottom: 30px
+">
+            <button class="btn" @onclick="(()=>AddDepartment1())">
+                <i class="fa fa-plus-circle"></i>
+                <span class="nav-text">
+                    Add Department
+                </span>
+            </button>
+
+
+        </div>
+
+        <AddDepartment DepartmentViewModel="@DepartmentViewModel" ShowAddDepartment="@ShowAddDepartment" Onclick="@AddDepartment" CloseWindowClick="@CloseWindow"></AddDepartment>
+        <DepartmentsList departments="@departments" EditDepartmentClick="@EditDepartment" DeleteDepartmentClick="@DeleteDepartment"></DepartmentsList>
+
+
+    </div>
+

@@ -1,0 +1,561 @@
+﻿@page "/Employees/AddEmployee"
+@page "/Employees/EditEmployee"
+
+<link href="/css/Card.css" rel="stylesheet" />
+<style>
+    .add-employee-container .form-control {
+        border: none;
+        border-bottom: 1px solid #3333;
+        border-radius: inherit;
+        background: transparent;
+    }
+
+    .add-employee-container input:focus {
+        outline: none;
+        border-bottom: 1px solid blue;
+        box-shadow: none;
+    }
+
+    .input-group-addon {
+        font-size: 25px;
+        color: #3333;
+    }
+
+    .modal-content {
+        border: none !important;
+    }
+
+    .modal-header {
+        border: none !important;
+    }
+
+    .add-employee-container {
+        /*background-image: repeating-linear-gradient(45deg, black, transparent 100px);*/
+    }
+
+    .input-group > .form-control {
+        width: 25% !important;
+    }
+</style>
+
+<div class="add-employee-container h-100 p-1">
+    <div class="">
+
+
+        <div class="add-employee-card">
+            @*<div class="modal-header">
+                    <h3 class="modal-title w-100 text-center">
+                        <img src="~/Images/NoProfile.png" />
+                    </h3>
+                </div>*@
+            <div class="card-body add-employee-card-body">
+
+
+                <EditForm Model="@AddEmployeeView" Context="formContext" >
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="employee-profile-details profile">
+                        <div class="d-flex" style="justify-content:space-between">
+                            <h5 class="card-title register-card-titrle card-title-seperator">
+                                Profile
+                            </h5>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="file-input">
+
+                                        <img src="/Images/NoProfile.png" />
+                                        <div class="action-buttons">
+                                            <span class="btn btn-primary btn-sm btn-rnd"><i class="fa fa-plus"></i></span>
+                                            <a class="btn btn-danger btn-rnd btn-sm"><i class="fa fa-remove"></i> </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emp-roles-details roles-details" id="emp_roles_Details">
+                        <div class="d-flex">
+                            <h5 class="card-title add-employee-card-title card-title-seperator">
+                                Roles Details
+                            </h5>
+                        </div>
+
+                        <div class="row">
+
+
+                            @for (int i = 0; i < roles.Count; i++)
+                            {
+
+                                int rolesLocal = i;
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="form-check-inline">
+                                            @{
+                                                try
+                                                {
+                                                    <label class="form-check-label"> <input type="checkbox"  @bind="@roles[rolesLocal].IsSelected" class="form-check-input" /> @roles[rolesLocal].RoleName </label>
+
+                                                }
+                                                catch (Exception x)
+                                                {
+                                                }
+                                            }
+                                            @*<label class="form-check-label"> <input type="checkbox" @bind="@roles[0].IsSelected" class="form-check-input" /> @roles[0].RoleName </label>*@
+
+                                        </div>
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+
+
+                            }
+                        </div>
+                    </div>
+                    <div class="emp-personal-details personal-details">
+                        <div class="d-flex">
+                            <h5 class="card-title add-employee-card-titrle card-title-seperator">
+                                Personal Details
+                            </h5>
+
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="text" class="form-control" @bind="AddEmployeeView.FirstName" placeholder="First Name" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="text" class="form-control" @bind="AddEmployeeView.LastName" placeholder="Last Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="text" class="form-control" @bind="AddEmployeeView.UserName" placeholder="User Name" />
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="password" class="form-control" @bind="AddEmployeeView.Password" placeholder="Password" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="password" class="form-control" @bind="AddEmployeeView.ConfirmPassword" placeholder="Conform Password" />
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-fort-awesome"></span>
+                                        </span>
+                                        <input type="text" class="form-control" @bind="AddEmployeeView.DateOfBirth" placeholder="Date of Birth" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-city"></span>
+                                        </span>
+
+
+
+
+                                        <select @bind="AddEmployeeView.GenderId" class="form-control">
+                                            <option value=0>Select Gender</option>
+                                            @foreach (var gender in Genders)
+                                            {
+                                                <option value="@gender.Key">@gender.Value</option>
+                                            }
+
+                                        </select>
+
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-city"></span>
+                                        </span>
+
+
+                                        <select @bind="AddEmployeeView.MaritialStatusId" class="form-control">
+                                            <option value=0>Select Maritial Status</option>
+                                            @foreach (var MaritialStatus in MaritialStatuses)
+                                            {
+                                                <option value="@MaritialStatus.Key">@MaritialStatus.Value</option>
+                                            }
+
+                                        </select>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-phone"></span>
+                                        </span>
+                                        <input type="text" @bind="AddEmployeeView.FatherName" class="form-control" placeholder="Father Name" />
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-phone"></span>
+                                        </span>
+
+
+                                        <select @bind="AddEmployeeView.NationalityId" class="form-control">
+                                            <option value=0>Select Nationality</option>
+                                            @foreach (var nationality in Nationalities)
+                                            {
+                                                <option value="@nationality.Key">@nationality.Value</option>
+                                            }
+
+                                        </select>
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+                                        <input type="text" @bind="AddEmployeeView.PassportNumber" class="form-control" placeholder="Passport Number" />
+                                        <span asp-validation-for="PassportNumber" class="text-danger"></span>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emp-contact-details contact-details" id="emp_contact_Details">
+                        <div class="d-flex">
+                            <h5 class="card-title add-employee-card-titrle card-title-seperator">
+                                Contact Details
+                            </h5>
+
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input type="hidden" asp-for="Addresses[0].AddressTypeId" value="4" />
+                                            <span class=""></span>
+                                        </span>
+
+
+
+                                        <select @onchange="((args)=>GetStates(0,args))" class="form-control">
+                                            <option value=0>Select Country</option>
+                                            @foreach (var country in Countries)
+                                            {
+                                                if (country.Key == addAddresses[0].CountryMasterId)
+                                                {
+                                                    <option value="@country.Key" selected="selected">@country.Value</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@country.Key">@country.Value</option>
+                                                }
+
+                                            }
+
+                                        </select>
+
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+                                        <select @onchange="((args)=>GetCities(0,args))" class="form-control">
+                                            <option value=0>Select State</option>
+                                            @foreach (var state in States)
+                                            {
+                                                if (state.Key == addAddresses[0].StateMasterId)
+                                                {
+                                                    <option value="@state.Key" selected="selected">@state.Value</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@state.Key">@state.Value</option>
+                                                }
+
+
+                                            }
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+                                        <select @bind="addAddresses[0].CityMasterId" class="form-control">
+                                            <option value=0>Select City</option>
+                                            @foreach (var city in Cities)
+                                            {
+                                                if (city.Key == addAddresses[0].CityMasterId)
+                                                {
+                                                    <option value="@city.Key" selected="selected">@city.Value</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@city.Key">@city.Value</option>
+
+                                                }
+                                            }
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+
+                            </div>
+                            @for (int i = 0; i < mobiles.Length; i++)
+                            {
+                                var local = i;
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <span class=""></span>
+                                            </span>
+
+                                            <input @bind="mobiles[local].MobileNumber" class="form-control" type="text" placeholder="Mobile No. @(local+1)" />
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+
+
+
+
+                            @for (int i = 0; i < emails.Length; i++)
+                            {
+                                var local = i;
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <span class=""></span>
+                                            </span>
+
+                                            <input @bind="emails[local].EmailId" class="form-control" type="text" placeholder="Email Id @(local+1)" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+
+
+
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+
+                                        <textarea @bind="addAddresses[0].LandMark" class="form-control" placeholder="Address with land mark"></textarea>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="emp-employment-details employment-details" id="emp_employment_Details">
+                        <div class="d-flex">
+                            <h5 class="card-title add-employee-card-titrle card-title-seperator">
+                                Employment Details
+                            </h5>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+                                        <input @bind="AddEmployeeView.EmployeeId" class="form-control" placeholder="Employee Id" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+                                        <input @bind="AddEmployeeView.Designation" class="form-control" placeholder="Designation" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+                                        <select @bind="AddEmployeeView.DepartmentId" class="form-control">
+
+                                            <option value=0>Select Department</option>
+                                            @foreach (var dept in Departments)
+                                            {
+                                                <option value="@dept.Key">@dept.Value</option>
+                                            }
+
+                                        </select>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class=""></span>
+                                        </span>
+                                        <input @bind="AddEmployeeView.DateofJoining" class="form-control" placeholder="Date of Joining" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-submit">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @if (AddEmployeeView.Id != 0)
+                                {
+                                    <button type="submit" class="btn btn-success btn-sm" @onclick="(()=>EditEmployee(formContext))" asp-controller="Employees" asp-route-Id="">Update employee</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-success btn-sm" @onclick="(()=>AddNewEmployee(formContext))">add employee</button>
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </EditForm>
+                <form method="post">
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>

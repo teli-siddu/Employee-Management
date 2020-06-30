@@ -2,11 +2,13 @@
 using Contracts;
 using Entities;
 using Entities.Helper;
+using Entities.HelperModels;
 using Entities.Models;
 using Entities.ViewModels;
 using Entities.ViewModels.Employee;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,17 +23,18 @@ namespace Repository
         private readonly IDropdownsRepository _dropdownsRepository;
         private readonly IMapper _mapper;
         private readonly UserManager<Employee> _userManager;
+        private readonly AppSettings _appSettings;
 
-        public EmployeeRepository(RepositoryContext repositoryContext,IDropdownsRepository dropdownsRepository,IMapper mapper,Microsoft.AspNetCore.Identity.UserManager<Employee> userManager):base(repositoryContext)
+        public EmployeeRepository(RepositoryContext repositoryContext,IDropdownsRepository dropdownsRepository,IMapper mapper,Microsoft.AspNetCore.Identity.UserManager<Employee> userManager, IOptions<AppSettings> appSettings) :base(repositoryContext)
         {
             this._dropdownsRepository = dropdownsRepository;
             this._mapper = mapper;
             this._userManager = userManager;
+            this._appSettings = appSettings.Value;
             this._dropdownsRepository = dropdownsRepository;
         }
         public async  Task<ReturnResult> AddEmployee(AddEmployeeViewModel employeeView)
         {
-
 
             //RepositoryContext.Addresses.AddRange(new List<Address>
             //{
@@ -53,6 +56,14 @@ namespace Repository
                 IdentityResult userResult= await _userManager.CreateAsync(employee,employeeView.Password);
                 //Create(employee);
                 //employee= await _userManager.FindByNameAsync(employee.UserName);
+                if (!userResult.Succeeded) 
+                {
+                    return new ReturnResult
+                    {
+                        Error = userResult.Errors.ToArray()[0].Description,
+                        Succeeded = false
+                    };
+                }
                 IdentityResult result = await _userManager.AddToRolesAsync(employee, employeeView.Roles.Where(x=>x.IsSelected).Select(x=>x.RoleName).ToArray());
                 await SaveChangesAsync();
                 return new ReturnResult
@@ -84,7 +95,7 @@ namespace Repository
 
          
 
-
+            
             if (employeeExists != null) 
             {
                 
@@ -119,8 +130,8 @@ namespace Repository
                    Emails = x.Emails.Select(x => new EmailViewModel() { EmailId = x.EmailId }).ToList(),
                    EmployeeId = x.EmployeeId,
                    DateofJoining = x.DateofJoining,
-                   Id = x.Id
-
+                   Id = x.Id,
+                   ProfilePictureUrl = x.profilePictures.Select(x=>(this._appSettings.BaseUrl+"/"+x.Path.Replace("\\","/"))).FirstOrDefault()
                }).ToListAsync();
             //List<Employee> employees = FindAll().ToList();
             //List<Mobile> mobiles= RepositoryContext.Mobiles.ToList();
@@ -163,6 +174,7 @@ namespace Repository
                 .Include(x => x.Mobiles)
                 .Include(x => x.Emails)
                 .Include(x => x.Addresses)
+                .Include(x=>x.profilePictures)
                 
                 .FirstOrDefault();
 
@@ -256,7 +268,10 @@ namespace Repository
             //}).FirstOrDefault();
 
             Employee employee = await _userManager.FindByIdAsync(id.ToString());
-
+            if (employee == null)
+            {
+                return null;
+            }
             AddEmployeeViewModel addEmployeeView = _mapper.Map<AddEmployeeViewModel>(employee);
 
             addEmployeeView.Roles = UserSelectedRoles(employee);
@@ -268,7 +283,7 @@ namespace Repository
             addEmployeeView.Genders = await _dropdownsRepository.Genders();
             addEmployeeView.Deapartments = await _dropdownsRepository.Departments();
             addEmployeeView.Nationalities = await _dropdownsRepository.Nationalities();
-
+            addEmployeeView.ProfilePictureUrl = await GetProfileUrl(id);
             return addEmployeeView;
 
         }
@@ -286,6 +301,10 @@ namespace Repository
             return roleView;
         }
 
+        public async Task<string> GetProfileUrl(int id)
+        {
+           return await RepositoryContext.ProfilePictures.Where(x => x.Employee_UserId == id).Select(x => _appSettings.BaseUrl+"/"+ x.Path.Replace("\\","/")).FirstOrDefaultAsync();
+        }
         public async Task<IList<string>> GetRolesById(int userId) 
         {
             Employee employee = await _userManager.FindByIdAsync(userId.ToString());
@@ -305,7 +324,7 @@ namespace Repository
 
         public async Task<List<EmailViewModel>> GetEmailsAsync(int userId) 
         {
-            return await RepositoryContext.Emails.Where(x => x.Employee_UserId == userId).Select(x=>new EmailViewModel{}) .ToListAsync();
+            return await RepositoryContext.Emails.Where(x => x.Employee_UserId == userId).Select(x=>new EmailViewModel{EmailId=x.EmailId}) .ToListAsync();
         }
         public async Task<List<AddAddressViewModel>> GetAddressesAsync(int userId)
         {
@@ -330,6 +349,7 @@ namespace Repository
 
         public async Task<EmployeeViewModel> GetEmployeeDetails(int id) 
         {
+
             EmployeeViewModel employeeView = await FindByCondition(x => x.Id == id).Select(x => new EmployeeViewModel()
             {
                 Id = x.Id,
@@ -354,11 +374,104 @@ namespace Repository
                 Nationality = x.Nationality.Nationality,
                 PassportNumber = x.PassportNumber,
                 EmployeeId = x.EmployeeId,
-                FatherName = x.FatherName
-
+                FatherName = x.FatherName,
+                UserName=x.UserName
+               
+               
             }).FirstOrDefaultAsync();
+       
+
+            Employee employee = await _userManager.FindByIdAsync(id.ToString());
+
+            employeeView.Roles = UserSelectedRoles(employee);
+            employeeView.ProfilePictureUrl = await this.GetProfileUrl(id);
 
             return employeeView;
         }
-    }
+
+        public async Task<EmployeeViewModel> GetEmployeeDetails(string userName)
+        {
+
+            EmployeeViewModel employeeView = await FindByCondition(x => x.UserName == userName).Include(x=>x.UserRoles).Select(x => new EmployeeViewModel()
+            {
+                Id = x.Id,
+                Addresses = x.Addresses.Select(x => new AddressViewModel
+                {
+                    AddressType = x.AddressType.Name,
+                    CityName = x.City.City,
+                    CountryName = x.Country.Country,
+                    StateName = x.State.State,
+                    LandMark = x.LandMark
+                }).ToList(),
+                DateOfBirth = x.DateOfBirth,
+                DateofJoining = x.DateofJoining,
+                Department = x.Department.Name,
+                Designation = x.Designation,
+                Emails = x.Emails.Select(x => new EmailViewModel { EmailId = x.EmailId }).ToList(),
+                Mobiles = x.Mobiles.Select(x => new MobileViewModel { MobileNumber = x.MobileNumber }).ToList(),
+                Gender = x.Gender.Name,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                MaritialStatus = x.MaritialStatus.Name,
+                Nationality = x.Nationality.Nationality,
+                PassportNumber = x.PassportNumber,
+                EmployeeId = x.EmployeeId,
+                FatherName = x.FatherName,
+                UserName = x.UserName,
+                Role=x.UserRoles.Where(r=>r.UserId==x.Id).OrderBy(r=>r.Role.Priority).Select(r=>r.Role.Name).FirstOrDefault()
+
+                
+                
+
+
+            }).FirstOrDefaultAsync();
+
+
+            //Employee employee = await _userManager.FindByIdAsync(employeeView.Id.ToString());
+
+            //employeeView.Roles = UserSelectedRoles(employee);
+            employeeView.ProfilePictureUrl = await this.GetProfileUrl(employeeView.Id);
+
+            return employeeView;
+        }
+
+        public async Task<List<AddressViewModel>> GetAddressViewModel(int userId) 
+        
+        {
+            return await RepositoryContext.Addresses
+                .Include(x=>x.City)
+                .Include(x=>x.State)
+                .Include(x=>x.Country)
+                .Include(x=>x.AddressType)
+               
+                .Where(x => x.Employee_UserId == userId)
+                .Select(x => new AddressViewModel
+                {
+                    AddressType=x.AddressType.Name,
+                    CityName=x.City.City,
+                    CountryName=x.Country.Country,
+                    LandMark=x.LandMark,
+                    StateName=x.State.State
+                }).ToListAsync();
+        }
+
+        public string GetHighPriorityRole(string[] roles)
+        {
+            string role=RepositoryContext.Roles
+                                         .Where(x => roles.Contains(x.Name))
+                                         .OrderBy(x=>x.Priority)
+                                         .Select(x=>x.Name)
+                                         .FirstOrDefault();
+            return role;
+        }
+
+
+        //public string UpdateProfilePicturePath(string path) 
+        //{
+
+        //}
+
+
+        
+      }
 }

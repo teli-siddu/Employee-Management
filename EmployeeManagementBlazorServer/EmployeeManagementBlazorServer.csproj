@@ -5,7 +5,45 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Images\adult-1260380_1920.jpg" />
+    <Content Remove="wwwroot\Images\businessman-310819_1280.png" />
+    <Content Remove="wwwroot\Images\man-1351346_1280.png" />
+    <Content Remove="wwwroot\Images\man-1351393_1280.png" />
+    <Content Remove="wwwroot\Images\man-156584_1280.png" />
+    <Content Remove="wwwroot\Images\woman-1353803_1280.png" />
+    <Content Remove="wwwroot\Images\woman-1353825_1280.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\adult-1260380_1920.jpg" />
+    <None Include="wwwroot\Images\businessman-310819_1280.png" />
+    <None Include="wwwroot\Images\man-1351346_1280.png" />
+    <None Include="wwwroot\Images\man-1351393_1280.png" />
+    <None Include="wwwroot\Images\man-156584_1280.png" />
+    <None Include="wwwroot\Images\woman-1353803_1280.png" />
+    <None Include="wwwroot\Images\woman-1353825_1280.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HttpClientExtensions" Version="1.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
+    <ProjectReference Include="..\Repository\Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Dropdowns\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\site.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

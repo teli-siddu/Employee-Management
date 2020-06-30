@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -16,7 +16,7 @@
     <Compile Remove="Models\EmployeeManagementContext.cs" />
     <Compile Remove="Models\Menu.cs" />
     <Compile Remove="Models\PermanentAddress.cs" />
-    <Compile Remove="Models\RoleMenu.cs" />
+    <Compile Remove="Models\User.cs" />
     <Compile Remove="ViewModels\AddEmployeeViewModel.cs" />
     <Compile Remove="ViewModels\BasicEmployeeViewModel.cs" />
     <Compile Remove="ViewModels\EmployeeViewModel.cs" />

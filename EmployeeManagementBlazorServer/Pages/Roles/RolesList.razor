@@ -1,0 +1,51 @@
+﻿
+    <div class="roles row">
+        @foreach (var role in Roles)
+        {
+            <div class="col-md-4">
+
+
+                <div class="role-card  info-card card">
+
+                    <div class="role-card-header d-flex card-header">
+                        <a class="user-type-image" href="javascript:void(0);">
+                            <img src="/Images/NoProfile.png" width="60">
+                        </a>
+                        <h5 class="card-title"> </h5>
+                        <div class="card-subheader">
+                            <h6 class="card-title">@role.RoleName</h6>
+                            <p class="card-subtitle">
+                                &nbsp;
+                                <span>&nbsp;</span>
+                            </p><p>
+                            </p>
+                        </div>
+                        <div class="role-options">
+                            <button asp-controller="Roles" class="btn" @onclick="(()=>EditRoleClick.InvokeAsync(role.RoleId))"><i class="fa fa-edit"></i></button>
+
+                            <button asp-controller="Roles" class="btn" @onclick="(()=>DeleteRoleClick.InvokeAsync(role.RoleId))"><i class="fa fa-remove"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-footer user-card-border">
+                        <a title="View More" href="employee-detail.html" class="btn pmd-btn-flat pmd-ripple-effect btn-primary">View More</a>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+    </div>
+
+
+
+@code{
+
+    [Parameter]
+    public List<Entities.ViewModels.RoleViewModel> Roles { get; set; }
+
+    [Parameter]
+    public EventCallback<int> EditRoleClick { get; set; }
+
+    [Parameter]
+    public EventCallback<int> DeleteRoleClick { get; set; }
+}

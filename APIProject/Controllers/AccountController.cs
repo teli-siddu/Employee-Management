@@ -31,9 +31,11 @@ namespace APIProject.Controllers
 
             if (signInResult.Succeeded) 
             {
-                var apiResponse = new ApiResponse(signInResult.Succeeded, new string[] { });
+
+                //var apiResponse = new ApiResponse(signInResult.Succeeded, new string[] { });
+                var retResult = new ReturnResult { Error = "", Succeeded = true }; 
               
-                return Ok(apiResponse);
+                return Ok(retResult);
             }
             else 
             {

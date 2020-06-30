@@ -1,0 +1,21 @@
+﻿@page "/Roles/Roles"
+    <div class="component-section section" id="roles_List_Section">
+        <div class="navigation-options" style="        margin-bottom: 30px
+">
+            <button class="btn" @onclick="@ShowHideAddRole">
+                <i class="fa fa-plus-circle"></i>
+                <span class="nav-text">
+                    Add Role
+                </span>
+            </button>
+
+        </div>
+
+        @if (roles.Count == 0)
+        {
+            <div style="text-align:center"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading...</div>
+            
+        }
+        <AddRole CreateRoleViewModel="@createRoleViewModel" Onclick="@AddRole" ShowAddRole="@ShowAddRole" CloseWindowClick="@CloseWindow"></AddRole>
+        <RolesList DeleteRoleClick="@DeleteRole" EditRoleClick="@EditRole" Roles="@roles"></RolesList>
+    </div>

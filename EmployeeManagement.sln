@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIProject", "APIProject\AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagementBlazorServer", "EmployeeManagementBlazorServer\EmployeeManagementBlazorServer.csproj", "{132B542B-DF40-40F7-852E-77E4DB831B61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCProject", "MVCProject\MVCProject.csproj", "{6875811D-679C-47ED-97BB-0977F14AA9DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCProject", "MVCProject\MVCProject.csproj", "{6875811D-679C-47ED-97BB-0977F14AA9DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorPages", "RazorPages\RazorPages.csproj", "{51B53AAF-6495-4BD3-B550-64160700AFF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorPages", "RazorPages\RazorPages.csproj", "{51B53AAF-6495-4BD3-B550-64160700AFF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

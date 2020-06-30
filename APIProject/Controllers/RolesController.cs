@@ -60,8 +60,8 @@ namespace APIProject.Controllers
 
 
         }
-        [HttpPost("EditRole")]
-        public async Task<IActionResult> EditRole(CreateRoleViewModel roleVieModel)
+        [HttpPut("UpdateRole")]
+        public async Task<IActionResult> UpdateRole(CreateRoleViewModel roleVieModel)
         {
             if (!ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace APIProject.Controllers
         }
 
 
-        [HttpGet("DeleteRole/{id}")]
+        [HttpDelete("DeleteRole/{id}")]
         public async Task<IActionResult> DeleteRole(int id)
         {
             try
@@ -155,6 +155,26 @@ namespace APIProject.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        [HttpGet("GetRoleById/{Id}")]
+        public async Task<IActionResult> GetRoleById(int Id) 
+        {
+            try 
+            {
+                ApplicationRole role = await _rolesRepository.FindRoleById(Id);
+                CreateRoleViewModel createRoleViewModel = new CreateRoleViewModel
+                {
+                    RoleId = role.Id,
+                    RoleName = role.Name
+                };
+                return Ok(createRoleViewModel);
+            }
+            catch(Exception x) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+          
         }
     }
 }

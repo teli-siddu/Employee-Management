@@ -1,0 +1,306 @@
+﻿@page "/Employees/EmployeeDetails"
+
+<link href="/css/Card.css" rel="stylesheet" />
+@if (employee == null) 
+{
+<p>Please Wait...</p> 
+    return;
+}
+<div class="card add-employee-card">
+    @*<div class="modal-header">
+            <h3 class="modal-title w-100 text-center">
+                <img src="~/Images/NoProfile.png" />
+            </h3>
+        </div>*@
+    <div class="card-body employee-card-body">
+        <div class="employee-profile-details profile">
+            <div class="d-flex" style="justify-content:space-between">
+                <h5 class="card-title register-card-titrle card-title-seperator">
+                    Profile
+                </h5>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="file-input">
+
+                        <img src="/Images/NoProfile.png" />
+                        <div class="action-buttons">
+                            <span class="btn btn-primary btn-sm btn-rnd"><i class="fa fa-plus"></i></span>
+                            <a class="btn btn-danger btn-rnd btn-sm"><i class="fa fa-remove"></i> </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="emp-roles-details roles-details" id="emp_roles_Details">
+            <div class="d-flex">
+                <h5 class="card-title add-employee-card-title card-title-seperator">
+                    Roles Details
+                </h5>
+            </div>
+
+            <div class="row">
+
+
+                @for (int i = 0; i < employee.Roles.Count; i++)
+                {
+
+                    int rolesLocal = i;
+                    if (employee.Roles[rolesLocal].IsSelected)
+                    {
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="form-check-inline">
+                                    @{
+                                        try
+                                        {
+
+                                            <label class="form-check-label"> @employee.Roles[rolesLocal].RoleName </label>
+
+
+
+                                        }
+                                        catch (Exception x)
+                                        {
+                                        }
+                                    }
+                                    @*<label class="form-check-label"> <input type="checkbox" @bind="@roles[0].IsSelected" class="form-check-input" /> @roles[0].RoleName </label>*@
+
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+
+                }
+            </div>
+        </div>
+        <div class="emp-personal-details personal-details">
+            <div class="d-flex">
+                <h5 class="card-title add-employee-card-titrle card-title-seperator">
+                    Personal Details
+                </h5>
+
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+                    @*<div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-fort-awesome"></span>
+                            </span>
+                            <input type="text" class="form-control" asp-for="FirstName" placeholder="First Name" />
+                        </div>
+                    </div>*@
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">First Name</label>
+                        <p class="pmd-list-title">&nbsp;@employee.FirstName</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    @*<div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-fort-awesome"></span>
+                            </span>
+                            <input type="text" class="form-control" asp-for="LastName" placeholder="Last Name" />
+                        </div>
+                    </div>*@
+
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Last Name</label>
+                        <p class="pmd-list-title">&nbsp;@employee.LastName</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Date Name</label>
+                        <p class="pmd-list-title">&nbsp;@employee.DateOfBirth</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Gender</label>
+                        <p class="pmd-list-title">&nbsp;@employee.Gender</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Maritial Status</label>
+                        <p class="pmd-list-title">&nbsp;@employee.MaritialStatus</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Father Name</label>
+                        <p class="pmd-list-title">&nbsp;@employee.FatherName</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Nationality</label>
+                        <p class="pmd-list-title">&nbsp;@employee.Nationality</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Passport Number</label>
+                        <p class="pmd-list-title">&nbsp;@employee.PassportNumber</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="emp-contact-details contact-details" id="emp_contact_Details">
+            <div class="d-flex">
+                <h5 class="card-title add-employee-card-titrle card-title-seperator">
+                    Contact Details
+                </h5>
+
+
+            </div>
+
+
+
+            @foreach (var address in employee.Addresses)
+            {
+                <div class="row">
+
+                    @*<input type="hidden" asp-for="Addresses[0].AddressTypeId" value="4" />*@
+                    <div class="col-md-3">
+
+                        <div class="media-body">
+                            <label class="pmd-list-subtitle">Country</label>
+                            <p class="pmd-list-title">&nbsp;@address.CountryName</p>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="media-body">
+                            <label class="pmd-list-subtitle">State</label>
+                            <p class="pmd-list-title">&nbsp;@address.StateName</p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+
+                        <div class="media-body">
+                            <label class="pmd-list-subtitle">City</label>
+                            <p class="pmd-list-title">&nbsp;@address.CityName</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+
+
+
+                    <div class="col-md-9">
+                        <div class="media-body">
+                            <label class="pmd-list-subtitle">Land Mark</label>
+                            <p class="pmd-list-title">&nbsp;@address.LandMark</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+            <div class="row">
+
+
+                @for (int i = 0; i < employee.Mobiles.Count; i++)
+                {
+                    <div class="col-md-3">
+                        <div class="media-body">
+                            <label class="pmd-list-subtitle">Mobile No. @(i+1) </label>
+                            <p class="pmd-list-title">&nbsp;@employee.Mobiles[i].MobileNumber</p>
+                        </div>
+                    </div>
+                }
+
+
+
+
+                @for (int i = 0; i < employee.Emails.Count; i++)
+                {
+                    <div class="col-md-3">
+                        <div class="media-body">
+                            <label class="pmd-list-subtitle">Email @(i+1) </label>
+                            <p class="pmd-list-title">&nbsp;@employee.Emails[i].EmailId</p>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="emp-employment-details employment-details" id="emp_employment_Details">
+            <div class="d-flex">
+                <h5 class="card-title add-employee-card-titrle card-title-seperator">
+                    Employment Details
+                </h5>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Employee Id </label>
+                        <p class="pmd-list-title">&nbsp;@employee.EmployeeId</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Designation </label>
+                        <p class="pmd-list-title">&nbsp;@employee.Designation</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Department </label>
+                        <p class="pmd-list-title">&nbsp;@employee.Department</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="media-body">
+                        <label class="pmd-list-subtitle">Date of Joining </label>
+                        <p class="pmd-list-title">&nbsp;@employee.DateofJoining</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+</div>
+

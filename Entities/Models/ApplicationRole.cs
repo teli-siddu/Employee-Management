@@ -10,11 +10,18 @@ namespace Entities.Models
         public virtual ICollection<EmployeeRole> UserRoles { get; set; }
         public virtual ICollection<ApplicationRoleClaim> RoleClaims { get; set; }
 
+        public virtual ICollection<RoleMenu> RoleMenus { get; set; }
+
         //public virtual ICollection<RoleMenu> RoleMenus { get; set; }
 
         // public virtual ICollection<ApplicationUser> Users { get; set; }
+        //public virtual ICollection<MenuItem> MenuItems { get; set; }
+
+        //public virtual RoleMenu RoleMenu { get; set; }
 
         public bool IsActive { get; set; }
+
+        public int Priority { get; set; }
 
     }
 }

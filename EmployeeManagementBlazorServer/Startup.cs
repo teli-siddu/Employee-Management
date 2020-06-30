@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EmployeeManagementBlazorServer.Data;
+using MVCProject.Extensions;
+using EmployeeManagementBlazorServer.Services;
 
 namespace EmployeeManagementBlazorServer
 {
@@ -26,9 +28,14 @@ namespace EmployeeManagementBlazorServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureHttpClients();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            //services.ConfigureDependenceyResolver();
             services.AddSingleton<WeatherForecastService>();
+
+            
+            services.ConfigureServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,6 +3,7 @@ using Entities;
 using Entities.HelperModels;
 using Entities.Models;
 using Entities.ViewModels;
+using Entities.ViewModels.Employee;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -25,13 +26,15 @@ namespace Repository
         private AppSettings _appSettings;
 
         private IMenuRepository _MenuRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public AccountRepository(SignInManager<Employee> signInManager,UserManager<Employee> userManager,IMenuRepository menuRepository, IOptions<AppSettings> appSettings)
+        public AccountRepository(SignInManager<Employee> signInManager,UserManager<Employee> userManager,IMenuRepository menuRepository, IOptions<AppSettings> appSettings,IEmployeeRepository employeeRepository)
            
         {
             this._signInManager = signInManager;
             this._userManager = userManager;
             this._MenuRepository = menuRepository;
+            this._employeeRepository = employeeRepository;
             this._appSettings = appSettings.Value;
         }
 
@@ -76,10 +79,12 @@ namespace Repository
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                  new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                  new Claim("Employee_Id",user.Id.ToString())
-            };       
-            var userRoles = await _userManager.GetRolesAsync(user);
+            };
+            EmployeeViewModel employeeViewModel = await _employeeRepository.GetEmployeeDetails(user.UserName);
+            var userRole=employeeViewModel.Role;
+            //var userRoles = await _userManager.GetRolesAsync(user);
            // var userMenu = _MenuRepository.GetMenu(userRoles[0]);
-            claims.AddRange(userRoles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
+            claims.Add( new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole));
             //claims.Add(new Claim( "UserMenu", JsonConvert.SerializeObject(userMenu)));
            
             //var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
@@ -92,26 +97,35 @@ namespace Repository
                
                 Expires = expires,
                 SigningCredentials = creds,
-              
 
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+           var tokenHandler = new JwtSecurityTokenHandler();
            var securityToken=  tokenHandler.CreateToken(securityTokenDescriptor);
            string token= tokenHandler.WriteToken(securityToken);
            string refreshToken = GenerateRefreshToken();
            user.RefreshToken = refreshToken;
            IdentityResult result=   await _userManager.UpdateAsync(user);
-
+           
+            //GetRoles(token);
             return new AccessTokenViewModel
             {
 
+                User=employeeViewModel,
                 Token = token,
                 RefreshToken = refreshToken,
                 TokenExpiration = securityTokenDescriptor.Expires.ToString()
 
             };
            
+
+
+
+
+
+
+
+
 
         }
 
@@ -124,5 +138,22 @@ namespace Repository
                 return Convert.ToBase64String(randomNumber);
             }
         }
+
+        public JwtSecurityToken DecodeToken(string token)
+        {
+            string secret = _appSettings.SecretKey;
+            var key = Encoding.ASCII.GetBytes(secret);
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadToken(token) as JwtSecurityToken;
+            return jwtSecurityToken;
+        }
+
+       
+        //public string GetRoles(string token)
+        //{
+        //    JwtSecurityToken jwtSecurityToken= DecodeToken(token);
+
+        //    var roles = jwtSecurityToken.Claims.Where(x=>x.Type=="role").Select(x=>x.Value).ToList();
+        //}
     }
 }

@@ -102,7 +102,7 @@ namespace MVCProject.Controllers
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token")?.ToString());
             string strDepartment = JsonConvert.SerializeObject(department);
             StringContent content = new StringContent(strDepartment, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await httpClient.PostAsync("api/Departments/UpdateDepartment", content);
+            HttpResponseMessage response = await httpClient.PutAsync("api/Departments/UpdateDepartment", content);
             if (!response.IsSuccessStatusCode)
             {
                 return StatusCode((int)response.StatusCode);
@@ -120,7 +120,7 @@ namespace MVCProject.Controllers
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token")?.ToString());
 
 
-            HttpResponseMessage response = await httpClient.GetAsync("api/Departments/DeleteDepartment/" + Id);
+            HttpResponseMessage response = await httpClient.DeleteAsync("api/Departments/DeleteDepartment/" + Id);
             if (!response.IsSuccessStatusCode)
             {
                 return StatusCode((int)response.StatusCode);

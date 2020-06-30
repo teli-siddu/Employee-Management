@@ -20,6 +20,8 @@ namespace Contracts
         Task<AddEmployeeViewModel> GetEmployeeForEdit(int id);
 
         Task<EmployeeViewModel> GetEmployeeDetails(int id);
+        Task<EmployeeViewModel> GetEmployeeDetails(string userName);
+        string GetHighPriorityRole(string[] roles);
 
     }
 }

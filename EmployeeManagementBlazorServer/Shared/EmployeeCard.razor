@@ -1,40 +1,33 @@
-﻿<h3>EmployeeCard</h3>
+﻿@typeparam TItem
 
-<div class="card-header">
-    
-</div>
-<div class="card-body">
-    <div class="row form-group">
-        <div class="col-md-4">
-            <label>Employee Name:</label>
 
-        </div>
-        <div class="col-md-8">
-            @applicationUser.UserName
-        </div>
+        <div class="tab-content">
+            <!-- Grid View -->
+            <div class="" id="">
+                <div class="row">
 
-    </div>
-    <div class="row form-group">
-        <div class="col-md-4">
-            <label>Employee Name:</label>
 
-        </div>
-        <div class="col-md-8">
-            @applicationUser
-        </div>
+                    @foreach (var item in Items)
+                        {
+                            ItemTemplate(item);
+                       
+                    }
 
-    </div>
-    <div class="row form-group">
-        <div class="col-md-4">
-            <label>City:</label>
 
-        </div>
-        <div class="col-md-8">
-            @*@applicationUser.City*@
+
+
+                </div>
+            </div>
+            <!-- Grid View End -->
+            <!-- List View Start -->
+            <!-- List View End -->
         </div>
 
-    </div>
-</div>
-<div class="card-footer">
-
-</div>
+@code
+{
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+    [Parameter]
+    public IReadOnlyList<TItem> Items { get; set; }
+}
+   
