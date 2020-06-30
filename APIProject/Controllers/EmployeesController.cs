@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ using Entities.Models;
 using Entities.ViewModels;
 using Entities.ViewModels.Employee;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,15 +22,11 @@ namespace APIProject.Controllers
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
-        private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmployeesController(IEmployeeRepository employeeRepository,IMapper mapper,IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
+        public EmployeesController(IEmployeeRepository employeeRepository,IMapper mapper)
         {
             this._employeeRepository = employeeRepository;
             this._mapper = mapper;
-            this._hostingEnvironment = hostingEnvironment;
-            this._httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("Employees")]
@@ -42,7 +36,6 @@ namespace APIProject.Controllers
             {
 
               List<EmployeeViewModel> employees=   await _employeeRepository.Employees();
-               
 
                 return Ok(employees);
 
@@ -56,7 +49,6 @@ namespace APIProject.Controllers
         [HttpPost("AddEmployee")]
         public async Task<IActionResult> AddEmployee(AddEmployeeViewModel employeeView)
         {
-
             
             try
             {
@@ -135,7 +127,7 @@ namespace APIProject.Controllers
 
                 ReturnResult result =await  _employeeRepository.AddEmployee(employeeView);
 
-                    return Ok(result);
+                return Ok(result);
 
             }
             catch (Exception x)
@@ -151,16 +143,6 @@ namespace APIProject.Controllers
             try
             {
                 AddEmployeeViewModel editEmployeeView = await _employeeRepository.GetEmployeeForEdit(id);
-                if (editEmployeeView == null)
-                {
-                   var result= new ReturnResult()
-                    {
-                        Error = "No employee found with Id " + id,
-                        Succeeded = false
-
-                    };
-                    return StatusCode(StatusCodes.Status404NotFound, result);
-                }
                 return Ok(editEmployeeView);
             }
             catch(Exception x) 
@@ -228,24 +210,7 @@ namespace APIProject.Controllers
             }
         }
 
-        //[HttpGet("DeleteEmployee/{Id}")]
-        //public async Task<IActionResult> DeleteEmployee(int Id)
-        //{
-        //    try
-        //    {
-
-        //        ReturnResult result = await _employeeRepository.DeleteEmployee(Id);
-
-        //        return Ok(result);
-                
-        //    }
-        //    catch (Exception x)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, x.Message);
-        //    }
-        //}
-
-        [HttpDelete("DeleteEmployee/{Id}")]
+        [HttpGet("DeleteEmployee/{Id}")]
         public async Task<IActionResult> DeleteEmployee(int Id)
         {
             try
@@ -254,7 +219,7 @@ namespace APIProject.Controllers
                 ReturnResult result = await _employeeRepository.DeleteEmployee(Id);
 
                 return Ok(result);
-
+                
             }
             catch (Exception x)
             {
@@ -277,67 +242,6 @@ namespace APIProject.Controllers
             }
             
         }
-        [HttpGet("GetUser")]
-        public async Task<IActionResult> GetUser()
-        {
-            try
-            {
-                string userName= _httpContextAccessor.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userName))
-                {
-                    return BadRequest();
-                }
-                EmployeeViewModel employeeView = await _employeeRepository.GetEmployeeDetails(userName);
-                return Ok(employeeView);
-            }
-            catch (Exception x)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-        }
-
-        [HttpPost("UploadProfileImage")]
-        public  async Task<IActionResult> UploadProfileImage(IFormCollection formData)
-        {
-            try
-            {
-                var file = HttpContext.Request.Form.Files[0];
-              
-                var rootPath= _hostingEnvironment.WebRootPath;
-
-                var profileImagesPath = "profileImages";
-               
-                var fullPath=   Path.Combine(rootPath, profileImagesPath);
-                if (!Directory.Exists(profileImagesPath))
-                {
-                    Directory.CreateDirectory(profileImagesPath);
-                }
-                if (file.Length > 0)
-                {
-                    var extension = Path.GetExtension(file.FileName);
-                    var fileName = Guid.NewGuid().ToString()+extension;
-                    using (var fileStream = new FileStream(Path.Combine(fullPath, fileName), FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-                    return Ok(Path.Combine(profileImagesPath, fileName));
-                }
-                return StatusCode(StatusCodes.Status400BadRequest, "invalid file");
-            }
-            catch(Exception x)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-            
-
-           
-          
-        }
-
-
-
-
 
 
     }

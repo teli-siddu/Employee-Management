@@ -43,15 +43,12 @@ namespace Entities
         //public DbSet<Menu> Menus { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
 
-        public DbSet<RoleMenu> RoleMenus { get; set; }
-
         //public DbSet<RoleMenu> RoleMenus { get; set; }
 
         public DbSet<LeaveTypeMaster> LeaveTypes { get; set; }
 
         public DbSet<LeaveStatusMaster> LeaveStatuses { get; set; }
 
-        public DbSet<ProfilePicture> ProfilePictures { get; set; }
         public DbSet<Leave> Leaves { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

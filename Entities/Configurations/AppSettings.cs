@@ -8,6 +8,5 @@ namespace Entities.HelperModels
    public class AppSettings
     {
         public string SecretKey { get; set; }
-        public string BaseUrl { get; set; }
     }
 }

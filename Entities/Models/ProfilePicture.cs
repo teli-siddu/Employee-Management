@@ -10,7 +10,7 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Path { get; set; }
+        public string path { get; set; }
 
         [ForeignKey("Employee_UserId")]
         public Employee Employee { get; set; }

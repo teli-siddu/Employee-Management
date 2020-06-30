@@ -30,7 +30,6 @@ namespace APIProject.MappingConfigurations
             CreateMap<AddLeaveViewModel, Leave>();
             CreateMap<LeaveViewModel, Leave>();
             CreateMap<AddUserViewModel, Employee>();
-            CreateMap<EmployeeViewModel, Employee>();
 
 
 

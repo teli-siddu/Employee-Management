@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contracts;
 using Entities.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +12,6 @@ namespace APIProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class MenuController : ControllerBase
     {
         private readonly IMenuRepository _menuRepository;
@@ -35,18 +33,11 @@ namespace APIProject.Controllers
 
         //}
 
-            [HttpGet("TopNavMenuItems/{roleId}")]
-        public async Task<IActionResult> GetTopNavMenuItems(int roleId)
+            [HttpGet("GetMenu/{RoleName}")]
+        public IActionResult GetMenu(string RoleName)
         {
-            List<MenuViewModel> menuItems = await _menuRepository.GetTopNavMenuItems(roleId);
-            return Ok(menuItems);
+            UserMenuViewModel userMenuView = _menuRepository.GetMenu(RoleName);
+            return Ok(userMenuView);
          }
-
-        [HttpGet("TopNavMenuItems")]
-        public async Task<IActionResult> GetTopNavMenuItems()
-        {
-            List<MenuViewModel> menuItems = await _menuRepository.GetTopNavMenuItems();
-            return Ok(menuItems);
-        }
     }
 }

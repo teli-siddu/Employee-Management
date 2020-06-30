@@ -16,15 +16,10 @@ namespace Entities.Models
 
         public int ParentId { get; set; }
 
-        public int Order { get; set; }
+        public ApplicationRole Role { get; set; }
 
-
-        //public ApplicationRole Role { get; set; }
-
-        //[ForeignKey("Role")]
-        //public int RoleId { get; set; }
-        ////public Menu Menu { get; set; }
-        //public int MenuType { get; set; }
-        public virtual ICollection<RoleMenu> RoleMenus { get; set; }
+        [ForeignKey("Fk_RoleId")]
+        public string RoleId { get; set; }
+        //public Menu Menu { get; set; }
     }
 }

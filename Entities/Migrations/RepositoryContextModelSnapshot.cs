@@ -99,9 +99,6 @@ namespace Entities.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
@@ -308,6 +305,9 @@ namespace Entities.Migrations
                     b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("FK_Employee_Nationality")
+                        .HasColumnType("int");
+
                     b.Property<string>("FatherName")
                         .HasColumnType("nvarchar(max)");
 
@@ -374,11 +374,11 @@ namespace Entities.Migrations
 
                     b.HasIndex("DepartmentId");
 
+                    b.HasIndex("FK_Employee_Nationality");
+
                     b.HasIndex("GenderId");
 
                     b.HasIndex("MaritialStatusId");
-
-                    b.HasIndex("NationalityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -395,7 +395,7 @@ namespace Entities.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6d567c74-1788-4606-b8bf-38553d9b72de",
+                            ConcurrencyStamp = "685a840a-e628-4489-b2f4-e3498a65cbdf",
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 3,
                             EmailConfirmed = false,
@@ -410,7 +410,7 @@ namespace Entities.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e887bf39-3e04-403f-9a19-c35e0541024b",
+                            ConcurrencyStamp = "494bfe00-5794-4f0d-824c-c0704c24231b",
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 2,
                             EmailConfirmed = false,
@@ -425,7 +425,7 @@ namespace Entities.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5c893553-84e1-4bd3-94d3-56f8423caf02",
+                            ConcurrencyStamp = "8cda3315-b898-4137-b335-05a399b1bdab",
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 1,
                             EmailConfirmed = false,
@@ -631,16 +631,21 @@ namespace Entities.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Order")
+                    b.Property<int>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ParentId")
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId1")
                         .HasColumnType("int");
 
                     b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId1");
 
                     b.ToTable("MenuItems");
                 });
@@ -693,7 +698,7 @@ namespace Entities.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Path")
+                    b.Property<string>("path")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -701,28 +706,6 @@ namespace Entities.Migrations
                     b.HasIndex("Employee_UserId");
 
                     b.ToTable("ProfilePictures");
-                });
-
-            modelBuilder.Entity("Entities.Models.RoleMenu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuItemId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RoleMenus");
                 });
 
             modelBuilder.Entity("Entities.Models.StateMaster", b =>
@@ -811,6 +794,10 @@ namespace Entities.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId");
 
+                    b.HasOne("Entities.Models.NationalityMaster", "Nationality")
+                        .WithMany("employees")
+                        .HasForeignKey("FK_Employee_Nationality");
+
                     b.HasOne("Entities.Models.Gender", "Gender")
                         .WithMany("Employees")
                         .HasForeignKey("GenderId");
@@ -818,10 +805,6 @@ namespace Entities.Migrations
                     b.HasOne("Entities.Models.MaritialStatus", "MaritialStatus")
                         .WithMany("Employees")
                         .HasForeignKey("MaritialStatusId");
-
-                    b.HasOne("Entities.Models.NationalityMaster", "Nationality")
-                        .WithMany("employees")
-                        .HasForeignKey("NationalityId");
                 });
 
             modelBuilder.Entity("Entities.Models.EmployeeClaim", b =>
@@ -887,6 +870,13 @@ namespace Entities.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Entities.Models.MenuItem", b =>
+                {
+                    b.HasOne("Entities.Models.ApplicationRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId1");
+                });
+
             modelBuilder.Entity("Entities.Models.Mobile", b =>
                 {
                     b.HasOne("Entities.Models.Employee", "Employee")
@@ -901,21 +891,6 @@ namespace Entities.Migrations
                     b.HasOne("Entities.Models.Employee", "Employee")
                         .WithMany("profilePictures")
                         .HasForeignKey("Employee_UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Entities.Models.RoleMenu", b =>
-                {
-                    b.HasOne("Entities.Models.MenuItem", "MenuItem")
-                        .WithMany("RoleMenus")
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.ApplicationRole", "Role")
-                        .WithMany("RoleMenus")
-                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

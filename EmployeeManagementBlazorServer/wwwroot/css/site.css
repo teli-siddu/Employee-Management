@@ -7,20 +7,13 @@ html, body {
 a, .btn-link {
     color: #0366d6;
 }
-.close-window-btn {
-color:red;
-position:absolute;
-right:15px;
-z-index:1;
-}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-.btn:focus {
-    box-shadow:none;
-}
+
 app {
     position: relative;
     display: flex;
@@ -65,18 +58,12 @@ app {
         font-size: 1.1rem;
     }
 
-    .sidebar .oi, .sidebar .fa {
+    .sidebar .oi {
         width: 2rem;
         font-size: 1.1rem;
         vertical-align: text-top;
         top: -2px;
     }
-.fa {
-    width: 2rem;
-    font-size: 1.1rem;
-    vertical-align: text-top;
-    top: -2px;
-}
 
     .sidebar .nav-item {
         font-size: 0.9rem;
@@ -161,10 +148,6 @@ app {
     .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
     }
-    .navabar-width-adj {
-    display:none;
-    }
-  
 }
 
 @media (min-width: 768px) {
@@ -173,21 +156,11 @@ app {
     }
 
     .sidebar {
-        width: 60px;
+        width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
-        overflow:hidden;
     }
-      /*.sidebar.collapse {
-      width:250px;
-          }*/
-        /*.sidebar:hover {
-        width:250px;
-        overflow:visible;
-        z-index:1
-
-        }*/
 
     .main .top-row {
         position: sticky;
@@ -206,14 +179,5 @@ app {
     .sidebar .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;
-       
-    }
-    .wt-60 {
-    width:60px;
-    transition:0.2s;
-    }
-    .wt-250 {
-        width: 250px;
-        transition: 0.2s;
     }
 }

@@ -9,8 +9,7 @@ namespace Contracts
     public interface IMenuRepository
     {
         MenuViewModel GetMenu();
-        Task<List<MenuViewModel>> GetTopNavMenuItems(int roleId);
-        Task<List<MenuViewModel>> GetTopNavMenuItems();
+        UserMenuViewModel GetMenu(string roleId);
 
     }
 }

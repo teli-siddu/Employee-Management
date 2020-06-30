@@ -1,5 +1,4 @@
-﻿using Entities.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,11 +13,9 @@ namespace Entities.ViewModels.Employee
         public List<MobileViewModel> Mobiles { get; set; }
         public List<EmailViewModel> Emails { get; set; }
 
-        public string ProfilePictureUrl { get; set; }
         public List<RoleViewModel> Roles { get; set; }
         public string    Department { get; set; }
         public BankDetailsViewModel BankDetails { get; set; }
         public List<AddressViewModel> Addresses { get; set; }
-        public string Role { get; set; }
     }
 }

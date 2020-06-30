@@ -1,20 +1,18 @@
-﻿<div class="sidebar @width" >
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">EmployeeManagementBlazorServer</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
 
-
-    <div class="top-row pl-2 navbar navbar-dark">
-        @*<a class="navbar-brand" href="">EmployeeManagementBlazorServer</a>*@
-        <button class="navabar-width-adj btn" @onclick="ToggleWidth">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <button class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-
-    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-        <ul class="nav flex-column">
-           
-            @*<li class="nav-item px-3">
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
             <NavLink class="nav-link" href="counter">
                 <span class="oi oi-plus" aria-hidden="true"></span> Counter
             </NavLink>
@@ -23,47 +21,17 @@
             <NavLink class="nav-link" href="fetchdata">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
             </NavLink>
-        </li>*@
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="/Employees/Employees">
-                    <i class="fa fa-users" aria-hidden="true"></i> Employees
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="/Departments/Departments">
-                    <i class="fa fa-bars" aria-hidden="true"></i> Departments
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="/Roles/Roles">
-                    <i class="fa fa-bars" aria-hidden="true"></i> Roles
-                </NavLink>
-            </li>
-        </ul>
-    </div>
+        </li>
+    </ul>
 </div>
-
-
-
 
 @code {
     private bool collapseNavMenu = true;
-    private string width = "wt-60";
+
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
-    }
-    private void ToggleWidth()
-    {
-        if (width == "wt-60")
-        {
-            width = "wt-250";
-        }
-        else
-        {
-            width = "wt-60";
-        }
     }
 }

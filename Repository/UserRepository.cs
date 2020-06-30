@@ -80,10 +80,10 @@ namespace Repository
                         
         //}
 
-        //public IEnumerable<User> GetAll()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IEnumerable<User> GetAll()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<IdentityResult> Register(Employee user,string password)
         {

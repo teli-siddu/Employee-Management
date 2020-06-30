@@ -66,10 +66,8 @@ namespace Entities.Models
 
         public virtual ICollection<Address> Addresses { get; set; }
 
-        
-        public virtual NationalityMaster Nationality { get; set; }
-
         [ForeignKey("FK_Employee_Nationality")]
+        public virtual NationalityMaster Nationality { get; set; }
         public int? NationalityId { get; set; }
 
         //public ICollection<Absence> Absences { get; set; }

@@ -124,7 +124,7 @@ namespace MVCProject.Controllers
         {
             HttpClient httpClient = _httpClientFactory.CreateClient("EmpMGMTClient");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token")?.ToString());
-            HttpResponseMessage response = httpClient.DeleteAsync("api/Roles/DeleteRole/" + Id).Result;
+            HttpResponseMessage response = httpClient.GetAsync("api/Roles/DeleteRole/" + Id).Result;
             if (!response.IsSuccessStatusCode)
             {
                 return StatusCode((int)response.StatusCode);

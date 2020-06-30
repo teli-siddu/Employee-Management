@@ -151,11 +151,5 @@ namespace APIProject.Extensions
         {
 
         }
-
-        public static void ConfigureHttpContextAccessor(this IServiceCollection services)
-        {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        }
-    
     }
 }

@@ -1,33 +1,40 @@
-﻿@typeparam TItem
+﻿<h3>EmployeeCard</h3>
 
+<div class="card-header">
+    
+</div>
+<div class="card-body">
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label>Employee Name:</label>
 
-        <div class="tab-content">
-            <!-- Grid View -->
-            <div class="" id="">
-                <div class="row">
-
-
-                    @foreach (var item in Items)
-                        {
-                            ItemTemplate(item);
-                       
-                    }
-
-
-
-
-                </div>
-            </div>
-            <!-- Grid View End -->
-            <!-- List View Start -->
-            <!-- List View End -->
+        </div>
+        <div class="col-md-8">
+            @applicationUser.UserName
         </div>
 
-@code
-{
-    [Parameter]
-    public RenderFragment<TItem> ItemTemplate { get; set; }
-    [Parameter]
-    public IReadOnlyList<TItem> Items { get; set; }
-}
-   
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label>Employee Name:</label>
+
+        </div>
+        <div class="col-md-8">
+            @applicationUser
+        </div>
+
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label>City:</label>
+
+        </div>
+        <div class="col-md-8">
+            @*@applicationUser.City*@
+        </div>
+
+    </div>
+</div>
+<div class="card-footer">
+
+</div>

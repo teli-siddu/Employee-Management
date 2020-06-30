@@ -42,7 +42,7 @@ namespace APIProject.Controllers
 
         }
 
-        [HttpPut("UpdateDepartment")]
+        [HttpPost("UpdateDepartment")]
         public async Task<IActionResult> UpdateDepartment(DepartmentViewModel departmentView)
         {
             try
@@ -87,7 +87,7 @@ namespace APIProject.Controllers
             }
         }
 
-        [HttpDelete("DeleteDepartment/{Id}")]
+        [HttpGet("DeleteDepartment/{Id}")]
         public async Task<IActionResult> DeleteDepartment(int Id)
         {
             try
